@@ -1,12 +1,10 @@
-
-
 <!DOCTYPE html>
 <html lang="bn">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#102c50">
-  <meta name="description" content="Desh 71 - বাংলাদেশের সর্বশেষ সংবাদ, রাজনীতি, আন্তর্জাতিক, খেলাধুলা, ব্যবসা ও প্রযুক্তি।">
+  <meta name="description" content="Desh 71 - বাংলাদেশের সর্বশেষ সংবাদ, রাজনীতি, আন্তর্জাতিক, খেলাধুলা ও বিশ্ব সংবাদ।">
   <title>Desh 71 | সত্যের পথে সংবাদ</title>
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,177 +12,26 @@
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-
 <header class="site-header">
-  <div class="topbar">
-    <div class="container topbar-inner">
-      <span id="todayDate">আজকের সংবাদ</span>
-      <div class="top-links">
-        <a href="#about">আমাদের সম্পর্কে</a>
-        <a href="#contact">যোগাযোগ</a>
-      </div>
-    </div>
-  </div>
-
+  <div class="topbar"><div class="container topbar-inner"><span id="todayDate">আজকের সংবাদ</span><div class="top-links"><a href="#about">আমাদের সম্পর্কে</a><a href="#contact">যোগাযোগ</a></div></div></div>
   <div class="container brand-row">
-    <button class="menu-toggle" id="menuToggle" aria-label="Menu">☰</button>
-    <a href="index.html" class="brand">
-      <span class="brand-mark">৭১</span>
-      <span>
-        <strong>DESH 71</strong>
-        <small>সত্যের পথে সংবাদ</small>
-      </span>
-    </a>
-
-    <div class="brand-center">
-      <span>বাংলাদেশের সংবাদমাধ্যম</span>
-      <strong>সত্যের পাশে, মানুষের সাথে</strong>
-    </div>
-
-    <div class="header-actions">
-      <button id="languageToggle" class="header-btn">EN</button>
-      <button id="themeToggle" class="header-btn" aria-label="Toggle theme">☾</button>
-    </div>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu" aria-expanded="false">☰</button>
+    <a href="index.html" class="brand"><span class="brand-mark">৭১</span><span><strong>DESH 71</strong><small>সত্যের পথে সংবাদ</small></span></a>
+    <div class="brand-center"><span>বাংলাদেশের সংবাদমাধ্যম</span><strong>সত্যের পাশে, মানুষের সাথে</strong></div>
+    <div class="header-actions"><button id="languageToggle" class="header-btn" aria-label="Change language">EN</button><button id="themeToggle" class="header-btn" aria-label="Toggle theme">☾</button></div>
   </div>
-
-  <nav class="main-nav" id="mainNav">
-    <div class="container nav-inner">
-      <a href="#" class="nav-link active" data-category="সব">প্রচ্ছদ</a>
-      <a href="#news" class="nav-link" data-category="জাতীয়">জাতীয়</a>
-      <a href="#news" class="nav-link" data-category="রাজনীতি">রাজনীতি</a>
-      <a href="#news" class="nav-link" data-category="আন্তর্জাতিক">আন্তর্জাতিক</a>
-      <a href="#news" class="nav-link" data-category="খেলাধুলা">খেলাধুলা</a>
-      <a href="#news" class="nav-link" data-category="ব্যবসা">ব্যবসা</a>
-      <a href="#news" class="nav-link" data-category="প্রযুক্তি">প্রযুক্তি</a>
-      <a href="#news" class="nav-link" data-category="বিনোদন">বিনোদন</a>
-    </div>
-  </nav>
+  <nav class="main-nav" id="mainNav"><div class="container nav-inner"><a href="index.html" class="nav-link active">প্রচ্ছদ</a><a href="category.html?slug=national" class="nav-link">জাতীয়</a><a href="category.html?slug=politics" class="nav-link">রাজনীতি</a><a href="category.html?slug=international" class="nav-link">আন্তর্জাতিক</a><a href="category.html?slug=sports" class="nav-link">খেলাধুলা</a><a href="category.html?slug=business" class="nav-link">ব্যবসা</a><a href="category.html?slug=technology" class="nav-link">প্রযুক্তি</a><a href="category.html?slug=entertainment" class="nav-link">বিনোদন</a></div></nav>
 </header>
-
 <main>
-  <section class="breaking container">
-    <span class="breaking-label">ব্রেকিং নিউজ</span>
-    <div class="breaking-track">
-      <span>দেশের গুরুত্বপূর্ণ সংবাদ ও সর্বশেষ আপডেট পড়ুন Desh 71-এ</span>
-    </div>
+  <section class="breaking container"><span class="breaking-label">Desh 71</span><div class="breaking-track"><span>বাংলা ও English-এ প্রকাশিত সংবাদ পড়ুন</span></div></section>
+  <section class="container hero-section"><div class="section-heading"><div><span class="eyebrow">TODAY'S HEADLINES</span><h2>আজকের প্রধান সংবাদ</h2></div><span class="live-indicator"><i></i> সর্বশেষ আপডেট</span></div><div class="hero-grid" id="heroNews"><div class="empty-state"><h3>সংবাদ লোড হচ্ছে…</h3></div></div></section>
+  <section class="container news-section" id="news"><div class="section-heading"><div><span class="eyebrow">LATEST STORIES</span><h2>সর্বশেষ সংবাদ</h2></div><form class="search-box" id="searchForm"><input type="search" id="searchInput" placeholder="সংবাদ খুঁজুন..." aria-label="Search news"><button type="submit" id="searchButton" aria-label="Search">⌕</button></form></div>
+    <div class="category-filters" id="categoryFilters"><a class="filter-btn selected" href="index.html">সব সংবাদ</a><a class="filter-btn" href="category.html?slug=national">জাতীয়</a><a class="filter-btn" href="category.html?slug=politics">রাজনীতি</a><a class="filter-btn" href="category.html?slug=international">আন্তর্জাতিক</a><a class="filter-btn" href="category.html?slug=sports">খেলাধুলা</a><a class="filter-btn" href="category.html?slug=business">ব্যবসা</a><a class="filter-btn" href="category.html?slug=technology">প্রযুক্তি</a><a class="filter-btn" href="category.html?slug=entertainment">বিনোদন</a></div>
+    <div class="news-grid" id="newsGrid"><div class="empty-state"><h3>সংবাদ লোড হচ্ছে…</h3></div></div><p class="result-message" id="resultMessage" aria-live="polite"></p>
   </section>
-
-  <section class="container hero-section">
-    <div class="section-heading">
-      <div>
-        <span class="eyebrow">TODAY'S HEADLINES</span>
-        <h2>আজকের প্রধান সংবাদ</h2>
-      </div>
-      <span class="live-indicator"><i></i> সর্বশেষ আপডেট</span>
-    </div>
-
-    <div class="hero-grid" id="heroNews">
-      <article class="hero-main">
-        <div class="hero-art art-blue">
-          <span>DESH 71</span>
-          <small>বাংলাদেশ সংবাদ</small>
-        </div>
-        <div class="hero-content">
-          <span class="category-tag">বিশেষ সংবাদ</span>
-          <h1>সর্বশেষ সংবাদ জানতে চোখ রাখুন Desh 71-এ</h1>
-          <p>বাংলাদেশ ও বিশ্বের গুরুত্বপূর্ণ সংবাদ, বিশ্লেষণ এবং আপডেট এক জায়গায়।</p>
-          <button class="read-more" id="heroRead">বিস্তারিত পড়ুন →</button>
-        </div>
-      </article>
-
-      <div class="hero-side">
-        <article class="side-card">
-          <div class="side-art art-red">জাতীয়</div>
-          <div>
-            <span class="category-tag">জাতীয়</span>
-            <h3>দেশের গুরুত্বপূর্ণ খবর ও আপডেট</h3>
-            <small>Desh 71 ডেস্ক</small>
-          </div>
-        </article>
-        <article class="side-card">
-          <div class="side-art art-green">বিশ্ব</div>
-          <div>
-            <span class="category-tag">আন্তর্জাতিক</span>
-            <h3>বিশ্বের নানা প্রান্তের সংবাদ</h3>
-            <small>আন্তর্জাতিক ডেস্ক</small>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section class="container news-section" id="news">
-    <div class="section-heading">
-      <div>
-        <span class="eyebrow">LATEST STORIES</span>
-        <h2>সর্বশেষ সংবাদ</h2>
-      </div>
-      <div class="search-box">
-        <input type="search" id="searchInput" placeholder="সংবাদ খুঁজুন..." aria-label="Search news">
-        <button id="searchButton" aria-label="Search">⌕</button>
-      </div>
-    </div>
-
-    <div class="category-filters" id="categoryFilters">
-      <button class="filter-btn selected" data-category="সব">সব সংবাদ</button>
-      <button class="filter-btn" data-category="জাতীয়">জাতীয়</button>
-      <button class="filter-btn" data-category="রাজনীতি">রাজনীতি</button>
-      <button class="filter-btn" data-category="আন্তর্জাতিক">আন্তর্জাতিক</button>
-      <button class="filter-btn" data-category="খেলাধুলা">খেলাধুলা</button>
-      <button class="filter-btn" data-category="ব্যবসা">ব্যবসা</button>
-      <button class="filter-btn" data-category="প্রযুক্তি">প্রযুক্তি</button>
-      <button class="filter-btn" data-category="বিনোদন">বিনোদন</button>
-    </div>
-
-    <div class="news-grid" id="newsGrid">
-      <div class="empty-state">
-        <span>📰</span>
-        <h3>সংবাদ প্রকাশের অপেক্ষায়</h3>
-        <p>Admin Panel ও Supabase যুক্ত হলে এখানে প্রকাশিত সংবাদ দেখা যাবে।</p>
-      </div>
-    </div>
-    <p class="result-message" id="resultMessage"></p>
-  </section>
-
-  <section class="container newsletter" id="about">
-    <div>
-      <span class="eyebrow">ABOUT DESH 71</span>
-      <h2>সত্যের পাশে, মানুষের সাথে</h2>
-      <p>নির্ভরযোগ্য সংবাদ ও তথ্য পাঠকের কাছে পৌঁছে দেওয়াই আমাদের লক্ষ্য।</p>
-    </div>
-    <a href="#contact" class="newsletter-btn">যোগাযোগ করুন →</a>
-  </section>
+  <section class="container newsletter" id="about"><div><span class="eyebrow">ABOUT DESH 71</span><h2>সত্যের পাশে, মানুষের সাথে</h2><p>নির্ভরযোগ্য সংবাদ ও তথ্য পাঠকের কাছে পৌঁছে দেওয়াই আমাদের লক্ষ্য।</p></div><a href="mailto:info@desh71.com" class="newsletter-btn">যোগাযোগ করুন →</a></section>
 </main>
-
-<footer class="site-footer" id="contact">
-  <div class="container footer-content">
-    <div>
-      <a href="#" class="brand footer-brand">
-        <span class="brand-mark">৭১</span>
-        <span><strong>DESH 71</strong><small>সত্যের পথে সংবাদ</small></span>
-      </a>
-      <p>সত্যের পাশে, মানুষের সাথে।</p>
-    </div>
-    <div class="footer-links">
-      <a href="#about">আমাদের সম্পর্কে</a>
-      <a href="#news">সর্বশেষ সংবাদ</a>
-      <a href="mailto:info@desh71.com">ইমেইল</a>
-    </div>
-  </div>
-  <div class="container copyright">
-    © <span id="year"></span> Desh 71. All rights reserved.
-  </div>
-</footer>
-
-<div class="modal" id="newsModal" aria-hidden="true">
-  <div class="modal-content">
-    <button class="modal-close" id="modalClose" aria-label="Close">×</button>
-    <span class="category-tag">DESH 71</span>
-    <h2 id="modalTitle">Desh 71</h2>
-    <p id="modalText">সংবাদ বিস্তারিত।</p>
-  </div>
-</div>
-
-<script src="app.js"></script>
+<footer class="site-footer" id="contact"><div class="container footer-content"><div><a href="index.html" class="brand footer-brand"><span class="brand-mark">৭১</span><span><strong>DESH 71</strong><small>সত্যের পথে সংবাদ</small></span></a><p>সত্যের পাশে, মানুষের সাথে।</p></div><div class="footer-links"><a href="#about">আমাদের সম্পর্কে</a><a href="#news">সর্বশেষ সংবাদ</a><a href="mailto:info@desh71.com">ইমেইল</a><a href="admin/login.html">Admin</a></div></div><div class="container copyright">© <span id="year"></span> Desh 71. All rights reserved.</div></footer>
+<script type="module" src="app.js"></script>
 </body>
 </html>

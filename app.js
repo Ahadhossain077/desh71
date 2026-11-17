@@ -1,334 +1,48 @@
-
 "use strict";
 
-/*
-  DESH 71 - Frontend Controller
-  News data will be connected to Supabase in the next stage.
-*/
+import { listPublishedArticles, renderArticleCards, escapeHTML, initializeSharedUI, getLanguage, setLanguage } from "./assets/js/news.js";
 
-const categories = [
-  "সব",
-  "জাতীয়",
-  "রাজনীতি",
-  "আন্তর্জাতিক",
-  "খেলাধুলা",
-  "ব্যবসা",
-  "প্রযুক্তি",
-  "বিনোদন"
-];
+const grid = document.querySelector("#newsGrid");
+const result = document.querySelector("#resultMessage");
+const hero = document.querySelector("#heroNews");
+let stories = [];
 
-// No fabricated news articles.
-// Only published database articles will be shown after Supabase integration.
-let articles = [];
-
-let selectedCategory = "সব";
-let searchTerm = "";
-let currentLanguage = "bn";
-
-const $ = (selector) => document.querySelector(selector);
-const $$ = (selector) => document.querySelectorAll(selector);
-
-const newsGrid = $("#newsGrid");
-const resultMessage = $("#resultMessage");
-const searchInput = $("#searchInput");
-const modal = $("#newsModal");
-
-function initializeDate() {
-  const now = new Date();
-
-  const dateElement = $("#todayDate");
-  const yearElement = $("#year");
-
-  if (dateElement) {
-    dateElement.textContent = new Intl.DateTimeFormat("bn-BD", {
-      weekday: "long",
-      day: "numeric",
-      month: "long",
-      year: "numeric"
-    }).format(now);
-  }
-
-  if (yearElement) {
-    yearElement.textContent = now.getFullYear();
-  }
-}
-
-function renderNews() {
-  if (!newsGrid) return;
-
-  const filtered = articles.filter((article) => {
-    const matchesCategory =
-      selectedCategory === "সব" ||
-      article.category === selectedCategory;
-
-    const searchText = (
-      article.title + " " +
-      article.summary + " " +
-      article.category
-    ).toLowerCase();
-
-    const matchesSearch = searchText.includes(
-      searchTerm.toLowerCase()
-    );
-
-    return matchesCategory && matchesSearch;
-  });
-
-  if (filtered.length === 0) {
-    newsGrid.innerHTML = `
-      <div class="empty-state">
-        <span>📰</span>
-        <h3>এখনো কোনো প্রকাশিত সংবাদ নেই</h3>
-        <p>
-          ${searchTerm
-            ? "তোমার অনুসন্ধানের সঙ্গে মিলে এমন সংবাদ পাওয়া যায়নি।"
-            : "Admin Panel থেকে সংবাদ প্রকাশ করলে এখানে দেখা যাবে।"}
-        </p>
-      </div>
-    `;
-
-    if (resultMessage) {
-      resultMessage.textContent = searchTerm
-        ? "অনুসন্ধানের ফলাফল: ০"
-        : "";
-    }
-
+function renderHome() {
+  const language = getLanguage();
+  if (!grid) return;
+  if (!stories.length) {
+    grid.innerHTML = '<div class="empty-state"><span>📰</span><h3>No published articles yet / এখনো কোনো প্রকাশিত সংবাদ নেই</h3><p>Published database articles will appear here. / প্রকাশিত সংবাদ এখানে দেখা যাবে।</p></div>';
+    if (hero) hero.innerHTML = '<div class="empty-state"><h3>No published headlines / কোনো প্রধান সংবাদ নেই</h3></div>';
+    if (result) result.textContent = "";
     return;
   }
-
-  newsGrid.innerHTML = filtered.map((article) => `
-    <article class="news-card">
-      <div class="news-card-art" style="background:${safeColor(article.color)}">
-        ${escapeHTML(article.category)}
-      </div>
-      <div class="news-card-body">
-        <span class="category-tag">
-          ${escapeHTML(article.category)}
-        </span>
-        <h3>${escapeHTML(article.title)}</h3>
-        <p>${escapeHTML(article.summary)}</p>
-        <div class="news-meta">
-          <span>${escapeHTML(article.author || "Desh 71")}</span>
-          <span>${escapeHTML(article.date || "")}</span>
-        </div>
-        <button class="card-read" data-article-id="${escapeHTML(article.id)}">
-          বিস্তারিত পড়ুন →
-        </button>
-      </div>
-    </article>
-  `).join("");
-
-  if (resultMessage) {
-    resultMessage.textContent = `মোট সংবাদ: ${filtered.length}`;
+  const query = new URLSearchParams(location.search).get("q") || "";
+  const matching = stories.filter((item) => !query || [item.title_bn, item.title_en, item.summary_bn, item.summary_en].some((value) => (value || "").toLocaleLowerCase().includes(query.toLocaleLowerCase())));
+  grid.innerHTML = renderArticleCards(matching, language);
+  if (result) result.textContent = `${matching.length} ${language === "bn" ? "টি সংবাদ" : "articles"}`;
+  if (hero) {
+    const lead = matching[0];
+    hero.innerHTML = lead ? `<article class="hero-main"><div class="hero-art art-blue"${lead.image_url ? ` style="background-image:url('${escapeHTML(lead.image_url)}')"` : ""}><span>${escapeHTML(language === "bn" ? (lead.category?.name_bn || "সংবাদ") : (lead.category?.name_en || "News"))}</span></div><div class="hero-content"><span class="category-tag">${escapeHTML(language === "bn" ? (lead.category?.name_bn || "সংবাদ") : (lead.category?.name_en || "News"))}</span><h1>${escapeHTML(language === "bn" ? lead.title_bn : lead.title_en)}</h1><p>${escapeHTML(language === "bn" ? lead.summary_bn : lead.summary_en)}</p><a class="read-more" href="article.html?id=${encodeURIComponent(lead.id)}">${language === "bn" ? "বিস্তারিত পড়ুন →" : "Read story →"}</a></div></article><div class="hero-side">${matching.slice(1, 3).map((article) => `<article class="side-card"><div class="side-art art-green">${escapeHTML(language === "bn" ? (article.category?.name_bn || "সংবাদ") : (article.category?.name_en || "News"))}</div><div><span class="category-tag">${escapeHTML(language === "bn" ? (article.category?.name_bn || "সংবাদ") : (article.category?.name_en || "News"))}</span><h3><a href="article.html?id=${encodeURIComponent(article.id)}">${escapeHTML(language === "bn" ? article.title_bn : article.title_en)}</a></h3><small>${escapeHTML(article.author_name || "")}</small></div></article>`).join("")}</div>` : '<div class="empty-state"><h3>No matching headlines / কোনো প্রধান সংবাদ নেই</h3></div>';
   }
 }
 
-function escapeHTML(value) {
-  return String(value ?? "").replace(/[&<>"']/g, (char) => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#039;"
-  })[char]);
-}
-
-function safeColor(value) {
-  const allowedColors = [
-    "linear-gradient(135deg,#102c50,#316da5)",
-    "linear-gradient(135deg,#8b2430,#ed5964)",
-    "linear-gradient(135deg,#12634c,#35a87b)",
-    "linear-gradient(135deg,#493b82,#9370db)",
-    "linear-gradient(135deg,#94551b,#df9b47)"
-  ];
-
-  return allowedColors.includes(value)
-    ? value
-    : allowedColors[0];
-}
-
-function selectCategory(category) {
-  if (!categories.includes(category)) return;
-
-  selectedCategory = category;
-
-  $$(".filter-btn").forEach((button) => {
-    button.classList.toggle(
-      "selected",
-      button.dataset.category === category
-    );
+async function initialize() {
+  initializeSharedUI();
+  const languageButton = document.querySelector("#languageToggle");
+  languageButton?.addEventListener("click", () => { setLanguage(getLanguage() === "bn" ? "en" : "bn"); renderHome(); });
+  const form = document.querySelector("#searchForm");
+  form?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const query = document.querySelector("#searchInput")?.value.trim() || "";
+    location.href = `search.html?q=${encodeURIComponent(query)}`;
   });
-
-  $$(".nav-link").forEach((link) => {
-    link.classList.toggle(
-      "active",
-      link.dataset.category === category
-    );
-  });
-
-  renderNews();
-}
-
-function setupCategoryFilters() {
-  $$(".filter-btn").forEach((button) => {
-    button.addEventListener("click", () => {
-      selectCategory(button.dataset.category);
-      $("#news")?.scrollIntoView({ behavior: "smooth" });
-    });
-  });
-
-  $$(".nav-link[data-category]").forEach((link) => {
-    link.addEventListener("click", () => {
-      selectCategory(link.dataset.category);
-      $("#mainNav")?.classList.remove("open");
-    });
-  });
-}
-
-function setupSearch() {
-  if (!searchInput) return;
-
-  searchInput.addEventListener("input", () => {
-    searchTerm = searchInput.value.trim();
-    renderNews();
-  });
-
-  $("#searchButton")?.addEventListener("click", () => {
-    searchTerm = searchInput.value.trim();
-    renderNews();
-  });
-
-  searchInput.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-      searchTerm = searchInput.value.trim();
-      renderNews();
-    }
-  });
-}
-
-function openModal(title, description) {
-  if (!modal) return;
-
-  $("#modalTitle").textContent = title;
-  $("#modalText").textContent = description;
-
-  modal.classList.add("open");
-  modal.setAttribute("aria-hidden", "false");
-  document.body.style.overflow = "hidden";
-}
-
-function closeModal() {
-  if (!modal) return;
-
-  modal.classList.remove("open");
-  modal.setAttribute("aria-hidden", "true");
-  document.body.style.overflow = "";
-}
-
-function setupModal() {
-  $("#heroRead")?.addEventListener("click", () => {
-    openModal(
-      "Desh 71",
-      "এটি Desh 71-এর প্রাথমিক পরিচিতি। Supabase ও Admin Panel যুক্ত হওয়ার পর এখানে প্রকাশিত সংবাদ বিস্তারিত পড়তে পারবে।"
-    );
-  });
-
-  newsGrid?.addEventListener("click", (event) => {
-    const button = event.target.closest("[data-article-id]");
-    if (!button) return;
-
-    const article = articles.find(
-      (item) => String(item.id) === button.dataset.articleId
-    );
-
-    if (article) {
-      openModal(article.title, article.summary);
-    }
-  });
-
-  $("#modalClose")?.addEventListener("click", closeModal);
-
-  modal?.addEventListener("click", (event) => {
-    if (event.target === modal) closeModal();
-  });
-
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") closeModal();
-  });
-}
-
-function setupMobileMenu() {
-  const toggle = $("#menuToggle");
-  const nav = $("#mainNav");
-
-  toggle?.addEventListener("click", () => {
-    const isOpen = nav.classList.toggle("open");
-    toggle.textContent = isOpen ? "✕" : "☰";
-    toggle.setAttribute("aria-expanded", String(isOpen));
-  });
-}
-
-function setupTheme() {
-  const themeButton = $("#themeToggle");
-
-  let savedTheme = "light";
-
-  try {
-    savedTheme = localStorage.getItem("desh71-theme") || "light";
-  } catch (error) {
-    console.warn("Theme preference storage unavailable.");
+  grid?.addEventListener("click", (event) => { const card = event.target.closest("[data-article-id]"); if (card && !event.target.closest("a")) location.href = `article.html?id=${encodeURIComponent(card.dataset.articleId)}`; });
+  if (!window.DESh71_SUPABASE_CONFIG?.url || window.DESh71_SUPABASE_CONFIG.url.includes("YOUR_")) {
+    grid.innerHTML = '<div class="empty-state"><h3>Supabase setup required / Supabase সেটআপ প্রয়োজন</h3><p>Configure config/supabase.js to load published articles.</p></div>';
+    if (hero) hero.innerHTML = "";
+    return;
   }
-
-  function applyTheme(theme) {
-    const isDark = theme === "dark";
-
-    document.body.classList.toggle("dark", isDark);
-
-    if (themeButton) {
-      themeButton.textContent = isDark ? "☀" : "☾";
-    }
-  }
-
-  applyTheme(savedTheme);
-
-  themeButton?.addEventListener("click", () => {
-    const nextTheme = document.body.classList.contains("dark")
-      ? "light"
-      : "dark";
-
-    applyTheme(nextTheme);
-
-    try {
-      localStorage.setItem("desh71-theme", nextTheme);
-    } catch (error) {
-      console.warn("Could not save theme preference.");
-    }
-  });
+  try { stories = await listPublishedArticles(); renderHome(); }
+  catch (error) { console.error(error); grid.innerHTML = '<div class="empty-state"><h3>সংবাদ লোড করা যায়নি / Could not load articles</h3><p>Check Supabase configuration and database setup.</p></div>'; }
 }
-
-function setupLanguageButton() {
-  const button = $("#languageToggle");
-
-  button?.addEventListener("click", () => {
-    openModal(
-      "Language / ভাষা",
-      "বাংলা ও ইংরেজি কনটেন্টের পূর্ণ Language System পরবর্তী ধাপে যুক্ত হবে।"
-    );
-  });
-}
-
-function initializeWebsite() {
-  initializeDate();
-  setupCategoryFilters();
-  setupSearch();
-  setupModal();
-  setupMobileMenu();
-  setupTheme();
-  setupLanguageButton();
-  renderNews();
-
-  console.info("Desh 71 frontend initialized successfully.");
-}
-
-document.addEventListener("DOMContentLoaded", initializeWebsite);
-app.
+document.addEventListener("DOMContentLoaded", initialize);
