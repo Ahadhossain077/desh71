@@ -1357,3 +1357,109 @@
     font-size: 11px;
   }
 }
+
+/* =========================================
+   ADMIN CATEGORIES — Extra styles
+========================================= */
+.admin-field-full {
+  grid-column: 1 / -1;
+}
+
+.admin-field-hint {
+  color: #929db0;
+  font-size: 10px;
+  line-height: 1.4;
+  margin-top: 2px;
+}
+
+/* Form actions row */
+.admin-form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid #f1f4f9;
+  flex-wrap: wrap;
+}
+
+.admin-form-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-left: auto;
+}
+
+/* Ghost / cancel button */
+.admin-ghost-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1px solid var(--admin-border);
+  border-radius: 11px;
+  background: #fff;
+  color: #46536a;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .18s, border-color .18s, color .18s, transform .18s;
+}
+
+.admin-ghost-btn:hover {
+  background: #f5f7fb;
+  border-color: #cfd8e6;
+  transform: translateY(-1px);
+}
+
+.admin-ghost-btn[hidden] {
+  display: none;
+}
+
+/* Category table — slug styling */
+.admin-articles-table td code,
+.admin-articles-table .slug-chip {
+  display: inline-block;
+  padding: 3px 9px;
+  border-radius: 6px;
+  background: #f0f4ff;
+  color: #315efb;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .2px;
+}
+
+/* Category action buttons */
+.admin-articles-table .admin-row-actions {
+  gap: 6px;
+}
+
+/* ============ MOBILE ============ */
+@media (max-width: 700px) {
+  .admin-form-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .admin-form-buttons {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .admin-form-buttons .admin-primary-btn,
+  .admin-form-buttons .admin-ghost-btn {
+    flex: 1;
+    min-height: 46px;
+    justify-content: center;
+  }
+
+  .admin-field-hint {
+    font-size: 9.5px;
+  }
+}
