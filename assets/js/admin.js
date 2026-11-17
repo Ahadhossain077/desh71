@@ -1,25 +1,28 @@
 
 /* =====================================================
    DESH 71 - COMPLETE ADMIN PANEL
-   Authentication | Dashboard | Articles
-   Categories | Supabase Storage Image Upload
+   Authentication | Dashboard | Articles | Categories
+   Featured Image + Inline Article Image Upload
 ===================================================== */
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import "../../config/supabase.js";
 
-const config = window.DESh71_SUPABABASE_CONFIG;
+const config = window.DESh71_SUPABASE_CONFIG;
 
 if (!config?.url || !config?.anonKey) {
-  throw new Error("Supabase configuration not found.");
+  throw new Error("Desh 71 Supabase configuration not found.");
 }
 
 const supabase = createClient(config.url, config.anonKey);
+const BUCKET = "article-images";
+const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
 
-const $ = (selector) => document.querySelector(selector);
+const $ = (selector, parent = document) =>
+  parent.querySelector(selector);
 
 const escapeHTML = (value = "") =>
-  String(value).replace(/[&<>"']/g, (char) => ({
+  String(value).replace(/[&<>"']/g, char => ({
     "&": "&amp;",
     "<": "&lt;",
     ">": "&gt;",
@@ -31,6 +34,26 @@ function showMessage(element, message, type = "error") {
   if (!element) return;
   element.textContent = message;
   element.className = `form-message ${type}`;
+}
+
+function validateImage(file) {
+  const allowed = ["image/jpeg", "image/png", "image/webp"];
+
+  if (!file || !allowed.includes(file.type)) {
+    throw new Error("শুধু JPG, PNG অথবা WEBP ছবি ব্যবহার করো।");
+  }
+
+  if (file.size > MAX_IMAGE_SIZE) {
+    throw new Error("ছবির সাইজ সর্বোচ্চ 5 MB হতে পারবে।");
+  }
+}
+
+function getExtension(file) {
+  return {
+    "image/jpeg": "jpg",
+    "image/png": "png",
+    "image/webp": "webp"
+  }[file.type];
 }
 
 /* =====================================================
@@ -79,34 +102,38 @@ async function adminLogin(event) {
   const email = form.querySelector('[name="email"]')?.value.trim();
   const password = form.querySelector('[name="password"]')?.value;
   const message = $("#formMessage");
+  const button = form.querySelector('[type="submit"]');
 
   if (!email || !password) {
-    showMessage(message, "Enter your email and password.");
+    showMessage(message, "Email ও Password লিখো।");
     return;
   }
 
+  if (button) button.disabled = true;
   showMessage(message, "Logging in...", "info");
 
-  const { error } = await supabase.auth.signInWithPassword({
-    email,
-    password
-  });
+  try {
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password
+    });
 
-  if (error) {
+    if (error) throw error;
+
+    const { data: isAdmin, error: roleError } =
+      await supabase.rpc("is_admin");
+
+    if (roleError || isAdmin !== true) {
+      await supabase.auth.signOut();
+      throw new Error("এই Account-এর Admin Permission নেই।");
+    }
+
+    window.location.href = "dashboard.html";
+
+  } catch (error) {
     showMessage(message, error.message);
-    return;
+    if (button) button.disabled = false;
   }
-
-  const { data: isAdmin, error: roleError } =
-    await supabase.rpc("is_admin");
-
-  if (roleError || isAdmin !== true) {
-    await supabase.auth.signOut();
-    showMessage(message, "Admin access denied.");
-    return;
-  }
-
-  window.location.href = "dashboard.html";
 }
 
 /* =====================================================
@@ -133,8 +160,6 @@ async function loadDashboard() {
       .select("id", { count: "exact", head: true })
   ]);
 
-  const [articles, published, drafts, categories] = queries;
-
   const error = queries.find(result => result.error);
 
   if (error) {
@@ -142,17 +167,17 @@ async function loadDashboard() {
     return;
   }
 
-  if ($("#totalArticles"))
-    $("#totalArticles").textContent = articles.count ?? 0;
+  const ids = [
+    "#totalArticles",
+    "#publishedArticles",
+    "#draftArticles",
+    "#totalCategories"
+  ];
 
-  if ($("#publishedArticles"))
-    $("#publishedArticles").textContent = published.count ?? 0;
-
-  if ($("#draftArticles"))
-    $("#draftArticles").textContent = drafts.count ?? 0;
-
-  if ($("#totalCategories"))
-    $("#totalCategories").textContent = categories.count ?? 0;
+  queries.forEach((result, index) => {
+    const element = $(ids[index]);
+    if (element) element.textContent = result.count ?? 0;
+  });
 }
 
 /* =====================================================
@@ -187,12 +212,8 @@ async function loadArticles() {
       <td>${escapeHTML(article.title_en)}</td>
       <td>${escapeHTML(article.status)}</td>
       <td>
-        <a href="editor.html?id=${encodeURIComponent(article.id)}">
-          Edit
-        </a>
-
-        <button
-          type="button"
+        <a href="editor.html?id=${encodeURIComponent(article.id)}">Edit</a>
+        <button type="button"
           data-delete-article="${escapeHTML(article.id)}">
           Delete
         </button>
@@ -259,8 +280,7 @@ async function loadCategories() {
       <td>${escapeHTML(category.name_en)}</td>
       <td>${escapeHTML(category.slug)}</td>
       <td>
-        <button
-          type="button"
+        <button type="button"
           data-delete-category="${escapeHTML(category.id)}">
           Delete
         </button>
@@ -311,7 +331,7 @@ async function saveCategory(event) {
   };
 
   if (!category.name_bn || !category.name_en || !category.slug) {
-    showMessage($("#formMessage"), "Complete all category fields.");
+    showMessage($("#formMessage"), "সব Category তথ্য পূরণ করো।");
     return;
   }
 
@@ -324,38 +344,128 @@ async function saveCategory(event) {
     return;
   }
 
-  showMessage(
-    $("#formMessage"),
-    "Category saved successfully.",
-    "success"
-  );
-
+  showMessage($("#formMessage"), "Category saved successfully.", "success");
   form.reset();
   await loadCategories();
 }
 
 /* =====================================================
-   IMAGE PREVIEW
+   IMAGE UPLOAD HELPERS
 ===================================================== */
 
-function displayImagePreview(imagePreview, source) {
-  if (!imagePreview) return;
+async function uploadImage(file) {
+  validateImage(file);
 
-  imagePreview.src = source;
-  imagePreview.hidden = false;
-  imagePreview.style.display = "block";
+  const extension = getExtension(file);
+  const filePath =
+    `articles/${Date.now()}-${crypto.randomUUID()}.${extension}`;
+
+  const { error } = await supabase.storage
+    .from(BUCKET)
+    .upload(filePath, file, {
+      cacheControl: "3600",
+      upsert: false,
+      contentType: file.type
+    });
+
+  if (error) throw error;
+
+  const { data } = supabase.storage
+    .from(BUCKET)
+    .getPublicUrl(filePath);
+
+  if (!data?.publicUrl) {
+    throw new Error("Could not create public image URL.");
+  }
+
+  return data.publicUrl;
 }
 
-function hideImagePreview(imagePreview) {
-  if (!imagePreview) return;
+function displayImagePreview(image, source) {
+  if (!image) return;
+  image.src = source;
+  image.hidden = false;
+  image.style.display = "block";
+}
 
-  imagePreview.removeAttribute("src");
-  imagePreview.hidden = true;
-  imagePreview.style.display = "none";
+function hideImagePreview(image) {
+  if (!image) return;
+  image.removeAttribute("src");
+  image.hidden = true;
+  image.style.display = "none";
 }
 
 /* =====================================================
-   ARTICLE EDITOR + IMAGE UPLOAD
+   INSERT INLINE IMAGE MARKER
+===================================================== */
+
+function insertAtCursor(textarea, text) {
+  if (!textarea) return;
+
+  const start = textarea.selectionStart ?? textarea.value.length;
+  const end = textarea.selectionEnd ?? textarea.value.length;
+
+  textarea.value =
+    textarea.value.slice(0, start) +
+    text +
+    textarea.value.slice(end);
+
+  const cursor = start + text.length;
+  textarea.focus();
+  textarea.setSelectionRange(cursor, cursor);
+  textarea.dispatchEvent(new Event("input", { bubbles: true }));
+}
+
+function setupInlineImageUpload(textareaId, inputId, buttonId, statusId) {
+  const textarea = document.getElementById(textareaId);
+  const input = document.getElementById(inputId);
+  const button = document.getElementById(buttonId);
+  const status = document.getElementById(statusId);
+
+  if (!textarea || !input || !button) return;
+
+  button.addEventListener("click", () => input.click());
+
+  input.addEventListener("change", async () => {
+    const files = Array.from(input.files || []);
+    if (!files.length) return;
+
+    button.disabled = true;
+
+    try {
+      const session = await getAdminSession();
+      if (!session) return;
+
+      for (const file of files) {
+        if (status) {
+          status.textContent = `Uploading ${file.name}...`;
+        }
+
+        const imageUrl = await uploadImage(file);
+
+        const marker =
+          `\n\n[[DESH71_IMAGE:${imageUrl}]]\n\n`;
+
+        insertAtCursor(textarea, marker);
+      }
+
+      if (status) {
+        status.textContent = "ছবিগুলো Upload হয়েছে এবং লেখায় যুক্ত হয়েছে।";
+      }
+
+    } catch (error) {
+      if (status) status.textContent = error.message;
+      else alert(error.message);
+
+    } finally {
+      button.disabled = false;
+      input.value = "";
+    }
+  });
+}
+
+/* =====================================================
+   ARTICLE EDITOR
 ===================================================== */
 
 async function loadEditor() {
@@ -396,8 +506,7 @@ async function loadEditor() {
       '<option value="">Select category</option>' +
       (categories || []).map(category => `
         <option value="${escapeHTML(category.id)}">
-          ${escapeHTML(category.name_bn)} /
-          ${escapeHTML(category.name_en)}
+          ${escapeHTML(category.name_bn)} / ${escapeHTML(category.name_en)}
         </option>
       `).join("");
   }
@@ -424,8 +533,8 @@ async function loadEditor() {
 
       if (
         field &&
+        typeof field.value !== "undefined" &&
         value !== null &&
-        field instanceof HTMLElement &&
         field.type !== "file"
       ) {
         field.value = value;
@@ -434,58 +543,37 @@ async function loadEditor() {
 
     if (existingImage) {
       displayImagePreview(imagePreview, existingImage);
-      if (removeImage) removeImage.checked = false;
     }
 
     const heading = $("#editorHeading");
     if (heading) heading.textContent = "Edit article";
   }
 
-  /* IMAGE FILE VALIDATION AND PREVIEW */
+  /* FEATURED IMAGE PREVIEW */
 
   if (imageInput) {
     imageInput.addEventListener("change", () => {
       const file = imageInput.files?.[0];
-
       if (!file) return;
 
-      const allowedTypes = [
-        "image/jpeg",
-        "image/png",
-        "image/webp"
-      ];
+      try {
+        validateImage(file);
 
-      if (!allowedTypes.includes(file.type)) {
-        showMessage(
-          message,
-          "Only JPG, PNG and WEBP images are allowed."
-        );
+        if (previewObjectUrl) {
+          URL.revokeObjectURL(previewObjectUrl);
+        }
 
+        previewObjectUrl = URL.createObjectURL(file);
+        displayImagePreview(imagePreview, previewObjectUrl);
+
+        if (removeImage) removeImage.checked = false;
+
+        showMessage(message, "Image selected successfully.", "success");
+
+      } catch (error) {
         imageInput.value = "";
-        return;
+        showMessage(message, error.message);
       }
-
-      if (file.size > 5 * 1024 * 1024) {
-        showMessage(
-          message,
-          "Image size must be 5 MB or less."
-        );
-
-        imageInput.value = "";
-        return;
-      }
-
-      if (previewObjectUrl) {
-        URL.revokeObjectURL(previewObjectUrl);
-      }
-
-      previewObjectUrl = URL.createObjectURL(file);
-
-      displayImagePreview(imagePreview, previewObjectUrl);
-
-      if (removeImage) removeImage.checked = false;
-
-      showMessage(message, "Image selected successfully.", "success");
     });
   }
 
@@ -499,9 +587,25 @@ async function loadEditor() {
     });
   }
 
+  /* INLINE IMAGES - BANGLA AND ENGLISH */
+
+  setupInlineImageUpload(
+    "content_bn",
+    "inlineImagesBn",
+    "uploadInlineBn",
+    "inlineStatusBn"
+  );
+
+  setupInlineImageUpload(
+    "content_en",
+    "inlineImagesEn",
+    "uploadInlineEn",
+    "inlineStatusEn"
+  );
+
   /* SAVE ARTICLE */
 
-  form.onsubmit = async (event) => {
+  form.onsubmit = async event => {
     event.preventDefault();
 
     const currentSession = await getAdminSession();
@@ -523,113 +627,71 @@ async function loadEditor() {
       return;
     }
 
+    const submitButton = form.querySelector('[type="submit"]');
+    if (submitButton) submitButton.disabled = true;
+
     showMessage(message, "Saving article...", "info");
 
-    let imageUrl = existingImage;
+    try {
+      let imageUrl = existingImage;
 
-    /* REMOVE IMAGE */
-
-    if (removeImage?.checked && !file) {
-      imageUrl = "";
-    }
-
-    /* UPLOAD NEW IMAGE */
-
-    if (file) {
-      const extension = {
-        "image/jpeg": "jpg",
-        "image/png": "png",
-        "image/webp": "webp"
-      }[file.type];
-
-      if (!extension || file.size > 5 * 1024 * 1024) {
-        showMessage(message, "Invalid image file.");
-        return;
+      if (removeImage?.checked && !file) {
+        imageUrl = "";
       }
 
-      const filePath =
-        `articles/${Date.now()}-${crypto.randomUUID()}.${extension}`;
-
-      const { error: uploadError } = await supabase.storage
-        .from("article-images")
-        .upload(filePath, file, {
-          cacheControl: "3600",
-          upsert: false,
-          contentType: file.type
-        });
-
-      if (uploadError) {
-        showMessage(
-          message,
-          "Image upload failed: " + uploadError.message
-        );
-        return;
+      if (file) {
+        imageUrl = await uploadImage(file);
       }
 
-      const { data: publicData } = supabase.storage
-        .from("article-images")
-        .getPublicUrl(filePath);
+      const status = formData.get("status") || "draft";
 
-      imageUrl = publicData.publicUrl;
+      const articleData = {
+        title_bn: titleBn,
+        title_en: titleEn,
+        summary_bn: formData.get("summary_bn")?.trim() || "",
+        summary_en: formData.get("summary_en")?.trim() || "",
+        content_bn: formData.get("content_bn")?.trim() || "",
+        content_en: formData.get("content_en")?.trim() || "",
+        category_id: formData.get("category_id"),
+        author_name:
+          formData.get("author_name")?.trim() || "Desh 71 News Desk",
+        image_url: imageUrl || null,
+        status,
+        updated_at: new Date().toISOString(),
+        published_at: status === "published"
+          ? existingPublishedAt || new Date().toISOString()
+          : null
+      };
+
+      let result;
+
+      if (articleId) {
+        result = await supabase
+          .from("articles")
+          .update(articleData)
+          .eq("id", articleId);
+      } else {
+        articleData.author_id = currentSession.user.id;
+
+        result = await supabase
+          .from("articles")
+          .insert(articleData);
+      }
+
+      if (result.error) throw result.error;
+
+      showMessage(message, "Article saved successfully.", "success");
+
+      setTimeout(() => {
+        window.location.href = "articles.html";
+      }, 900);
+
+    } catch (error) {
+      showMessage(message, error.message || "Could not save article.");
+
+    } finally {
+      if (submitButton) submitButton.disabled = false;
     }
-
-    /* ARTICLE DATA */
-
-    const status = formData.get("status") || "draft";
-
-    const articleData = {
-      title_bn: titleBn,
-      title_en: titleEn,
-      summary_bn: formData.get("summary_bn")?.trim() || "",
-      summary_en: formData.get("summary_en")?.trim() || "",
-      content_bn: formData.get("content_bn")?.trim() || "",
-      content_en: formData.get("content_en")?.trim() || "",
-      category_id: formData.get("category_id"),
-      author_name:
-        formData.get("author_name")?.trim() || "Desh 71 News Desk",
-      image_url: imageUrl || null,
-      status,
-      updated_at: new Date().toISOString()
-    };
-
-    if (status === "published") {
-      articleData.published_at =
-        existingPublishedAt || new Date().toISOString();
-    } else {
-      articleData.published_at = null;
-    }
-
-    /* UPDATE OR INSERT */
-
-    let result;
-
-    if (articleId) {
-      result = await supabase
-        .from("articles")
-        .update(articleData)
-        .eq("id", articleId);
-    } else {
-      articleData.author_id = currentSession.user.id;
-
-      result = await supabase
-        .from("articles")
-        .insert(articleData);
-    }
-
-    if (result.error) {
-      showMessage(message, result.error.message);
-      return;
-    }
-
-    showMessage(
-      message,
-      "Article saved successfully.",
-      "success"
-    );
-
-    setTimeout(() => {
-      window.location.href = "articles.html";
-    }, 1000);
   };
 }
 
@@ -638,41 +700,20 @@ async function loadEditor() {
 ===================================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
-
   const loginForm = $("#loginForm");
   if (loginForm) {
     loginForm.addEventListener("submit", adminLogin);
   }
 
-  /* MATCHES YOUR editor.html ID */
-
-  const logoutButton = $("#signOut");
+  const logoutButton = $("#signOut") || $("#logoutBtn");
   if (logoutButton) {
     logoutButton.addEventListener("click", adminLogout);
   }
 
-  /* SUPPORT OTHER ADMIN PAGE ID */
-
-  const logoutAlternative = $("#logoutBtn");
-  if (logoutAlternative) {
-    logoutAlternative.addEventListener("click", adminLogout);
-  }
-
-  if ($("#totalArticles")) {
-    loadDashboard();
-  }
-
-  if ($("#articlesList")) {
-    loadArticles();
-  }
-
-  if ($("#categoriesList")) {
-    loadCategories();
-  }
-
-  if ($("#articleForm")) {
-    loadEditor();
-  }
+  if ($("#totalArticles")) loadDashboard();
+  if ($("#articlesList")) loadArticles();
+  if ($("#categoriesList")) loadCategories();
+  if ($("#articleForm")) loadEditor();
 
   const categoryForm = $("#categoryForm");
   if (categoryForm) {
