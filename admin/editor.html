@@ -6,8 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex">
   <title>Article editor | Desh 71 Admin</title>
+
   <link rel="stylesheet" href="../style.css">
   <link rel="stylesheet" href="../assets/css/pages.css">
+
   <style>
     .image-upload-box {
       border: 1px dashed #9ca3af;
@@ -16,6 +18,7 @@
       display: grid;
       gap: 12px;
     }
+
     .image-preview {
       display: none;
       width: 100%;
@@ -24,12 +27,35 @@
       border-radius: 10px;
       background: #f1f5f9;
     }
+
     .image-help {
       font-size: 13px;
       opacity: .75;
     }
+
+    .inline-image-tools {
+      border: 1px dashed #9ca3af;
+      border-radius: 10px;
+      padding: 12px;
+      margin: 8px 0 18px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .inline-image-tools button {
+      padding: 10px 14px;
+      border: 0;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .inline-image-status {
+      font-size: 13px;
+      opacity: .8;
+    }
   </style>
 </head>
+
 <body class="admin-body">
 
 <header class="admin-top">
@@ -37,7 +63,7 @@
     <span class="brand-mark">৭১</span>
     <span><strong>DESH 71</strong><small>Admin</small></span>
   </a>
-  <button id="signOut" class="header-btn">Sign out</button>
+  <button id="signOut" class="header-btn" type="button">Sign out</button>
 </header>
 
 <main class="admin-content">
@@ -68,13 +94,51 @@
 
     <label>
       Article body (Bangla)
-      <textarea name="content_bn" required rows="10"></textarea>
+      <textarea id="content_bn" name="content_bn" required rows="10"></textarea>
     </label>
+
+    <div class="inline-image-tools">
+      <strong>Bangla Article Images</strong>
+      <input
+        type="file"
+        id="inlineImagesBn"
+        accept="image/jpeg,image/png,image/webp"
+        multiple
+        hidden
+      >
+      <button type="button" id="uploadInlineBn" class="primary-button">
+        <span>ছবি Upload ও লেখায় যুক্ত করো</span>
+      </button>
+      <p class="image-help">
+        Gallery থেকে এক বা একাধিক ছবি নির্বাচন করো।
+        ছবি Cursor-এর অবস্থানে যুক্ত হবে।
+      </p>
+      <p id="inlineStatusBn" class="inline-image-status" role="status"></p>
+    </div>
 
     <label>
       Article body (English)
-      <textarea name="content_en" required rows="10"></textarea>
+      <textarea id="content_en" name="content_en" required rows="10"></textarea>
     </label>
+
+    <div class="inline-image-tools">
+      <strong>English Article Images</strong>
+      <input
+        type="file"
+        id="inlineImagesEn"
+        accept="image/jpeg,image/png,image/webp"
+        multiple
+        hidden
+      >
+      <button type="button" id="uploadInlineEn" class="primary-button">
+        <span>Upload and insert images</span>
+      </button>
+      <p class="image-help">
+        Select one or more images from your phone gallery.
+        Images will be inserted at the cursor position.
+      </p>
+      <p id="inlineStatusEn" class="inline-image-status" role="status"></p>
+    </div>
 
     <label>
       Category
@@ -98,14 +162,15 @@
       >
 
       <p class="image-help">
-        Gallery থেকে ছবি নির্বাচন করো। JPG, PNG, WEBP।
-        সর্বোচ্চ 5 MB।
+        Gallery থেকে Featured Image নির্বাচন করো।
+        JPG, PNG, WEBP। সর্বোচ্চ 5 MB।
       </p>
 
       <img
         id="imagePreview"
         class="image-preview"
         alt="Article image preview"
+        hidden
       >
 
       <label>
