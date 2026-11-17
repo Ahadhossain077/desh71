@@ -2,7 +2,7 @@
 /* =====================================================
    DESH 71 - COMPLETE ADMIN PANEL
    Authentication | Dashboard | Articles | Categories
-   Featured Image + Inline Article Image Upload
+   Featured Image + Inline Image Upload
 ===================================================== */
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
@@ -15,6 +15,7 @@ if (!config?.url || !config?.anonKey) {
 }
 
 const supabase = createClient(config.url, config.anonKey);
+
 const BUCKET = "article-images";
 const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
 
@@ -32,12 +33,17 @@ const escapeHTML = (value = "") =>
 
 function showMessage(element, message, type = "error") {
   if (!element) return;
+
   element.textContent = message;
   element.className = `form-message ${type}`;
 }
 
 function validateImage(file) {
-  const allowed = ["image/jpeg", "image/png", "image/webp"];
+  const allowed = [
+    "image/jpeg",
+    "image/png",
+    "image/webp"
+  ];
 
   if (!file || !allowed.includes(file.type)) {
     throw new Error("শুধু JPG, PNG অথবা WEBP ছবি ব্যবহার করো।");
@@ -99,8 +105,10 @@ async function adminLogin(event) {
   event.preventDefault();
 
   const form = event.currentTarget;
+
   const email = form.querySelector('[name="email"]')?.value.trim();
   const password = form.querySelector('[name="password"]')?.value;
+
   const message = $("#formMessage");
   const button = form.querySelector('[type="submit"]');
 
@@ -110,6 +118,7 @@ async function adminLogin(event) {
   }
 
   if (button) button.disabled = true;
+
   showMessage(message, "Logging in...", "info");
 
   try {
@@ -132,40 +141,21 @@ async function adminLogin(event) {
 
   } catch (error) {
     showMessage(message, error.message);
+
     if (button) button.disabled = false;
   }
 }
 
 /* =====================================================
-   DASHBOARD
+   DASHBOARD - FIXED
 ===================================================== */
 
 async function loadDashboard() {
   const session = await getAdminSession();
+
   if (!session) return;
 
-  const queries = await Promise.all([
-    supabase.from("articles")
-      .select("id", { count: "exact", head: true }),
-
-    supabase.from("articles")
-      .select("id", { count: "exact", head: true })
-      .eq("status", "published"),
-
-    supabase.from("articles")
-      .select("id", { count: "exact", head: true })
-      .eq("status", "draft"),
-
-    supabase.from("categories")
-      .select("id", { count: "exact", head: true })
-  ]);
-
-  const error = queries.find(result => result.error);
-
-  if (error) {
-    console.error("Dashboard error:", error.error);
-    return;
-  }
+  const errorElement = $("#dashboardError");
 
   const ids = [
     "#totalArticles",
@@ -174,10 +164,80 @@ async function loadDashboard() {
     "#totalCategories"
   ];
 
-  queries.forEach((result, index) => {
-    const element = $(ids[index]);
-    if (element) element.textContent = result.count ?? 0;
+  ids.forEach(selector => {
+    const element = $(selector);
+
+    if (element) {
+      element.textContent = "…";
+    }
   });
+
+  try {
+    const queries = await Promise.all([
+
+      supabase.from("articles")
+        .select("id", {
+          count: "exact",
+          head: true
+        }),
+
+      supabase.from("articles")
+        .select("id", {
+          count: "exact",
+          head: true
+        })
+        .eq("status", "published"),
+
+      supabase.from("articles")
+        .select("id", {
+          count: "exact",
+          head: true
+        })
+        .eq("status", "draft"),
+
+      supabase.from("categories")
+        .select("id", {
+          count: "exact",
+          head: true
+        })
+
+    ]);
+
+    const failedQuery = queries.find(result => result.error);
+
+    if (failedQuery) {
+      throw failedQuery.error;
+    }
+
+    queries.forEach((result, index) => {
+      const element = $(ids[index]);
+
+      if (element) {
+        element.textContent = result.count ?? 0;
+      }
+    });
+
+    if (errorElement) {
+      errorElement.textContent = "";
+      errorElement.className = "form-message";
+    }
+
+  } catch (error) {
+    console.error("Dashboard loading error:", error);
+
+    showMessage(
+      errorElement,
+      "Dashboard data load failed: " + error.message
+    );
+
+    ids.forEach(selector => {
+      const element = $(selector);
+
+      if (element) {
+        element.textContent = "!";
+      }
+    });
+  }
 }
 
 /* =====================================================
@@ -186,15 +246,21 @@ async function loadDashboard() {
 
 async function loadArticles() {
   const session = await getAdminSession();
+
   if (!session) return;
 
   const container = $("#articlesList");
+
   if (!container) return;
+
+  container.textContent = "Loading articles...";
 
   const { data, error } = await supabase
     .from("articles")
     .select("id,title_bn,title_en,status,created_at")
-    .order("created_at", { ascending: false });
+    .order("created_at", {
+      ascending: false
+    });
 
   if (error) {
     container.textContent = error.message;
@@ -212,8 +278,12 @@ async function loadArticles() {
       <td>${escapeHTML(article.title_en)}</td>
       <td>${escapeHTML(article.status)}</td>
       <td>
-        <a href="editor.html?id=${encodeURIComponent(article.id)}">Edit</a>
-        <button type="button"
+        <a href="editor.html?id=${encodeURIComponent(article.id)}">
+          Edit
+        </a>
+
+        <button
+          type="button"
           data-delete-article="${escapeHTML(article.id)}">
           Delete
         </button>
@@ -231,6 +301,7 @@ async function loadArticles() {
 
 async function deleteArticle(id) {
   const session = await getAdminSession();
+
   if (!session) return;
 
   if (!confirm("Delete this article permanently?")) return;
@@ -254,10 +325,14 @@ async function deleteArticle(id) {
 
 async function loadCategories() {
   const session = await getAdminSession();
+
   if (!session) return;
 
   const container = $("#categoriesList");
+
   if (!container) return;
+
+  container.textContent = "Loading categories...";
 
   const { data, error } = await supabase
     .from("categories")
@@ -280,7 +355,8 @@ async function loadCategories() {
       <td>${escapeHTML(category.name_en)}</td>
       <td>${escapeHTML(category.slug)}</td>
       <td>
-        <button type="button"
+        <button
+          type="button"
           data-delete-category="${escapeHTML(category.id)}">
           Delete
         </button>
@@ -298,6 +374,7 @@ async function loadCategories() {
 
 async function deleteCategory(id) {
   const session = await getAdminSession();
+
   if (!session) return;
 
   if (!confirm("Delete this category?")) return;
@@ -319,6 +396,7 @@ async function saveCategory(event) {
   event.preventDefault();
 
   const session = await getAdminSession();
+
   if (!session) return;
 
   const form = event.currentTarget;
@@ -331,7 +409,11 @@ async function saveCategory(event) {
   };
 
   if (!category.name_bn || !category.name_en || !category.slug) {
-    showMessage($("#formMessage"), "সব Category তথ্য পূরণ করো।");
+    showMessage(
+      $("#formMessage"),
+      "সব Category তথ্য পূরণ করো।"
+    );
+
     return;
   }
 
@@ -344,8 +426,14 @@ async function saveCategory(event) {
     return;
   }
 
-  showMessage($("#formMessage"), "Category saved successfully.", "success");
+  showMessage(
+    $("#formMessage"),
+    "Category saved successfully.",
+    "success"
+  );
+
   form.reset();
+
   await loadCategories();
 }
 
@@ -357,6 +445,7 @@ async function uploadImage(file) {
   validateImage(file);
 
   const extension = getExtension(file);
+
   const filePath =
     `articles/${Date.now()}-${crypto.randomUUID()}.${extension}`;
 
@@ -383,6 +472,7 @@ async function uploadImage(file) {
 
 function displayImagePreview(image, source) {
   if (!image) return;
+
   image.src = source;
   image.hidden = false;
   image.style.display = "block";
@@ -390,13 +480,14 @@ function displayImagePreview(image, source) {
 
 function hideImagePreview(image) {
   if (!image) return;
+
   image.removeAttribute("src");
   image.hidden = true;
   image.style.display = "none";
 }
 
 /* =====================================================
-   INSERT INLINE IMAGE MARKER
+   INLINE IMAGE MARKER
 ===================================================== */
 
 function insertAtCursor(textarea, text) {
@@ -411,12 +502,23 @@ function insertAtCursor(textarea, text) {
     textarea.value.slice(end);
 
   const cursor = start + text.length;
+
   textarea.focus();
   textarea.setSelectionRange(cursor, cursor);
-  textarea.dispatchEvent(new Event("input", { bubbles: true }));
+
+  textarea.dispatchEvent(
+    new Event("input", {
+      bubbles: true
+    })
+  );
 }
 
-function setupInlineImageUpload(textareaId, inputId, buttonId, statusId) {
+function setupInlineImageUpload(
+  textareaId,
+  inputId,
+  buttonId,
+  statusId
+) {
   const textarea = document.getElementById(textareaId);
   const input = document.getElementById(inputId);
   const button = document.getElementById(buttonId);
@@ -424,16 +526,20 @@ function setupInlineImageUpload(textareaId, inputId, buttonId, statusId) {
 
   if (!textarea || !input || !button) return;
 
-  button.addEventListener("click", () => input.click());
+  button.addEventListener("click", () => {
+    input.click();
+  });
 
   input.addEventListener("change", async () => {
     const files = Array.from(input.files || []);
+
     if (!files.length) return;
 
     button.disabled = true;
 
     try {
       const session = await getAdminSession();
+
       if (!session) return;
 
       for (const file of files) {
@@ -450,12 +556,16 @@ function setupInlineImageUpload(textareaId, inputId, buttonId, statusId) {
       }
 
       if (status) {
-        status.textContent = "ছবিগুলো Upload হয়েছে এবং লেখায় যুক্ত হয়েছে।";
+        status.textContent =
+          "ছবিগুলো Upload হয়েছে এবং লেখায় যুক্ত হয়েছে।";
       }
 
     } catch (error) {
-      if (status) status.textContent = error.message;
-      else alert(error.message);
+      if (status) {
+        status.textContent = error.message;
+      } else {
+        alert(error.message);
+      }
 
     } finally {
       button.disabled = false;
@@ -470,18 +580,24 @@ function setupInlineImageUpload(textareaId, inputId, buttonId, statusId) {
 
 async function loadEditor() {
   const session = await getAdminSession();
+
   if (!session) return;
 
   const form = $("#articleForm");
+
   if (!form) return;
 
   const message = $("#formMessage");
-  const categorySelect = form.querySelector('[name="category_id"]');
+
+  const categorySelect =
+    form.querySelector('[name="category_id"]');
+
   const imageInput = $("#articleImage");
   const imagePreview = $("#imagePreview");
   const removeImage = $("#removeImage");
 
   const params = new URLSearchParams(window.location.search);
+
   const articleId = params.get("id");
 
   let existingImage = "";
@@ -490,11 +606,13 @@ async function loadEditor() {
 
   /* LOAD CATEGORIES */
 
-  const { data: categories, error: categoryError } =
-    await supabase
-      .from("categories")
-      .select("*")
-      .order("created_at");
+  const {
+    data: categories,
+    error: categoryError
+  } = await supabase
+    .from("categories")
+    .select("*")
+    .order("created_at");
 
   if (categoryError) {
     showMessage(message, categoryError.message);
@@ -504,9 +622,11 @@ async function loadEditor() {
   if (categorySelect) {
     categorySelect.innerHTML =
       '<option value="">Select category</option>' +
+
       (categories || []).map(category => `
         <option value="${escapeHTML(category.id)}">
-          ${escapeHTML(category.name_bn)} / ${escapeHTML(category.name_en)}
+          ${escapeHTML(category.name_bn)} /
+          ${escapeHTML(category.name_en)}
         </option>
       `).join("");
   }
@@ -526,6 +646,7 @@ async function loadEditor() {
     }
 
     existingImage = article.image_url || "";
+
     existingPublishedAt = article.published_at || null;
 
     for (const [key, value] of Object.entries(article)) {
@@ -546,7 +667,10 @@ async function loadEditor() {
     }
 
     const heading = $("#editorHeading");
-    if (heading) heading.textContent = "Edit article";
+
+    if (heading) {
+      heading.textContent = "Edit article";
+    }
   }
 
   /* FEATURED IMAGE PREVIEW */
@@ -554,6 +678,7 @@ async function loadEditor() {
   if (imageInput) {
     imageInput.addEventListener("change", () => {
       const file = imageInput.files?.[0];
+
       if (!file) return;
 
       try {
@@ -564,14 +689,25 @@ async function loadEditor() {
         }
 
         previewObjectUrl = URL.createObjectURL(file);
-        displayImagePreview(imagePreview, previewObjectUrl);
 
-        if (removeImage) removeImage.checked = false;
+        displayImagePreview(
+          imagePreview,
+          previewObjectUrl
+        );
 
-        showMessage(message, "Image selected successfully.", "success");
+        if (removeImage) {
+          removeImage.checked = false;
+        }
+
+        showMessage(
+          message,
+          "Image selected successfully.",
+          "success"
+        );
 
       } catch (error) {
         imageInput.value = "";
+
         showMessage(message, error.message);
       }
     });
@@ -581,13 +717,14 @@ async function loadEditor() {
     removeImage.addEventListener("change", () => {
       if (removeImage.checked && !imageInput?.files?.length) {
         hideImagePreview(imagePreview);
+
       } else if (!removeImage.checked && existingImage) {
         displayImagePreview(imagePreview, existingImage);
       }
     });
   }
 
-  /* INLINE IMAGES - BANGLA AND ENGLISH */
+  /* INLINE IMAGE UPLOAD */
 
   setupInlineImageUpload(
     "content_bn",
@@ -609,16 +746,22 @@ async function loadEditor() {
     event.preventDefault();
 
     const currentSession = await getAdminSession();
+
     if (!currentSession) return;
 
     const formData = new FormData(form);
+
     const file = imageInput?.files?.[0];
 
     const titleBn = formData.get("title_bn")?.trim();
     const titleEn = formData.get("title_en")?.trim();
 
     if (!titleBn || !titleEn) {
-      showMessage(message, "Bangla and English titles are required.");
+      showMessage(
+        message,
+        "Bangla and English titles are required."
+      );
+
       return;
     }
 
@@ -627,8 +770,12 @@ async function loadEditor() {
       return;
     }
 
-    const submitButton = form.querySelector('[type="submit"]');
-    if (submitButton) submitButton.disabled = true;
+    const submitButton =
+      form.querySelector('[type="submit"]');
+
+    if (submitButton) {
+      submitButton.disabled = true;
+    }
 
     showMessage(message, "Saving article...", "info");
 
@@ -643,24 +790,41 @@ async function loadEditor() {
         imageUrl = await uploadImage(file);
       }
 
-      const status = formData.get("status") || "draft";
+      const status =
+        formData.get("status") || "draft";
 
       const articleData = {
         title_bn: titleBn,
         title_en: titleEn,
-        summary_bn: formData.get("summary_bn")?.trim() || "",
-        summary_en: formData.get("summary_en")?.trim() || "",
-        content_bn: formData.get("content_bn")?.trim() || "",
-        content_en: formData.get("content_en")?.trim() || "",
+
+        summary_bn:
+          formData.get("summary_bn")?.trim() || "",
+
+        summary_en:
+          formData.get("summary_en")?.trim() || "",
+
+        content_bn:
+          formData.get("content_bn")?.trim() || "",
+
+        content_en:
+          formData.get("content_en")?.trim() || "",
+
         category_id: formData.get("category_id"),
+
         author_name:
-          formData.get("author_name")?.trim() || "Desh 71 News Desk",
+          formData.get("author_name")?.trim() ||
+          "Desh 71 News Desk",
+
         image_url: imageUrl || null,
+
         status,
+
         updated_at: new Date().toISOString(),
-        published_at: status === "published"
-          ? existingPublishedAt || new Date().toISOString()
-          : null
+
+        published_at:
+          status === "published"
+            ? existingPublishedAt || new Date().toISOString()
+            : null
       };
 
       let result;
@@ -670,6 +834,7 @@ async function loadEditor() {
           .from("articles")
           .update(articleData)
           .eq("id", articleId);
+
       } else {
         articleData.author_id = currentSession.user.id;
 
@@ -678,19 +843,30 @@ async function loadEditor() {
           .insert(articleData);
       }
 
-      if (result.error) throw result.error;
+      if (result.error) {
+        throw result.error;
+      }
 
-      showMessage(message, "Article saved successfully.", "success");
+      showMessage(
+        message,
+        "Article saved successfully.",
+        "success"
+      );
 
       setTimeout(() => {
         window.location.href = "articles.html";
       }, 900);
 
     } catch (error) {
-      showMessage(message, error.message || "Could not save article.");
+      showMessage(
+        message,
+        error.message || "Could not save article."
+      );
 
     } finally {
-      if (submitButton) submitButton.disabled = false;
+      if (submitButton) {
+        submitButton.disabled = false;
+      }
     }
   };
 }
@@ -700,23 +876,40 @@ async function loadEditor() {
 ===================================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
+
   const loginForm = $("#loginForm");
+
   if (loginForm) {
     loginForm.addEventListener("submit", adminLogin);
   }
 
-  const logoutButton = $("#signOut") || $("#logoutBtn");
+  const logoutButton =
+    $("#signOut") || $("#logoutBtn");
+
   if (logoutButton) {
     logoutButton.addEventListener("click", adminLogout);
   }
 
-  if ($("#totalArticles")) loadDashboard();
-  if ($("#articlesList")) loadArticles();
-  if ($("#categoriesList")) loadCategories();
-  if ($("#articleForm")) loadEditor();
+  if ($("#totalArticles")) {
+    loadDashboard();
+  }
+
+  if ($("#articlesList")) {
+    loadArticles();
+  }
+
+  if ($("#categoriesList")) {
+    loadCategories();
+  }
+
+  if ($("#articleForm")) {
+    loadEditor();
+  }
 
   const categoryForm = $("#categoryForm");
+
   if (categoryForm) {
     categoryForm.addEventListener("submit", saveCategory);
   }
+
 });
