@@ -1,336 +1,82 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <meta name="theme-color" content="#102c50">
-  <title>Article | Desh 71</title>
-  <meta name="description" content="Desh 71 - সংবাদ বিস্তারিত।">
-  <meta name="robots" content="index, follow, max-image-preview:large">
-  <link rel="canonical" href="https://ahadhossain077.github.io/desh71/article.html">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23102c50'/><text x='50' y='72' font-size='60' font-weight='700' text-anchor='middle' fill='white' font-family='sans-serif'>৭১</text></svg>">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0f1a33">
+  <title>Articles | Desh 71 Admin</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <style>
-    .article-reader { max-width: 780px; margin: 0 auto; }
-    .article-back { display: inline-flex; align-items: center; gap: 6px; margin-bottom: 18px; color: var(--primary); font-weight: 700; font-size: 14px; }
-    .article-back:hover { color: var(--primary-dark); }
-    .article-hero { margin-bottom: 26px; }
-    .article-hero .hero-art { min-height: 0; aspect-ratio: 16 / 9; border-radius: var(--radius) var(--radius) 0 0; }
-    .article-hero .hero-content h1 { margin-top: 6px; }
-    .article-hero .hero-content .article-meta { display: flex; flex-wrap: wrap; gap: 8px 14px; color: var(--text-muted); font-size: 12px; margin-top: 10px; }
-    .article-body { background: var(--surface); padding: 24px; border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 30px; }
-    .article-figure { margin: 1.4em 0; }
-    .article-figure img { border-radius: var(--radius); }
-    @media (max-width: 760px) {
-      .article-body { padding: 16px; }
-      .article-hero .hero-content { padding: 16px; }
-      .article-hero .hero-content h1 { font-size: 22px; }
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../assets/css/pages.css">
 </head>
-<body>
+<body class="admin-body newsroom-admin">
 
-<header class="site-header">
-  <div class="topbar">
-    <div class="container topbar-inner">
-      <span id="todayDate">আজকের সংবাদ</span>
-      <div class="top-links">
-        <a href="index.html#about" data-i18n="topbar.about">আমাদের সম্পর্কে</a>
-        <a href="index.html#contact" data-i18n="topbar.contact">যোগাযোগ</a>
+  <aside class="admin-sidebar">
+    <a class="admin-brand" href="../index.html"><span class="admin-brand-mark">৭১</span><span class="admin-brand-copy"><strong>DESH 71</strong><small>NEWSROOM CMS</small></span></a>
+    <div class="admin-side-label">WORKSPACE</div>
+    <nav class="admin-side-nav" aria-label="Admin navigation">
+      <a class="admin-side-link" href="dashboard.html"><span class="admin-side-icon">▦</span><span>Dashboard</span></a>
+      <a class="admin-side-link active" href="articles.html" aria-current="page"><span class="admin-side-icon">▤</span><span>Articles</span></a>
+      <a class="admin-side-link" href="editor.html"><span class="admin-side-icon">＋</span><span>Write article</span></a>
+      <a class="admin-side-link" href="categories.html"><span class="admin-side-icon">▧</span><span>Categories</span></a>
+    </nav>
+    <div class="admin-sidebar-bottom">
+      <div class="admin-sidebar-note"><span class="admin-note-dot"></span><div><strong>Desh 71 CMS</strong><small>Content management</small></div></div>
+      <a class="admin-back-link" href="../index.html">← View website</a>
+    </div>
+  </aside>
+
+  <div class="admin-main-area">
+    <header class="admin-main-header">
+      <div><span class="admin-header-eyebrow">DESH 71 / CONTENT</span><h2>Articles</h2></div>
+      <div class="admin-header-actions">
+        <a class="admin-view-site" href="../index.html" target="_blank" rel="noopener">↗ View website</a>
+        <button id="signOut" class="admin-signout" type="button">Sign out ↗</button>
       </div>
-    </div>
+    </header>
+
+    <main class="admin-dashboard-content">
+      <section class="admin-welcome">
+        <div class="admin-welcome-copy">
+          <span class="admin-welcome-kicker">CONTENT LIBRARY</span>
+          <h1>All articles.</h1>
+          <p>Review, edit and update every story published on Desh 71.</p>
+        </div>
+        <a class="admin-create-button" href="editor.html"><span>＋</span> Create new article</a>
+      </section>
+
+      <p id="adminMessage" class="form-message admin-dashboard-message" role="status"></p>
+
+      <section class="admin-overview-section">
+        <div class="admin-section-heading">
+          <div><span class="admin-section-kicker">ALL STORIES</span><h2>Article list</h2></div>
+          <span class="admin-live-label"><i></i> Live data</span>
+        </div>
+        <div class="admin-articles-table-wrap">
+          <table class="admin-articles-table">
+            <thead><tr><th>Title</th><th>Status</th><th>Updated</th><th>Actions</th></tr></thead>
+            <tbody id="articlesList">
+              <tr><td colspan="4" class="admin-table-loading">Loading articles…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <footer class="admin-dashboard-footer"><span>© <span id="adminYear"></span> Desh 71</span><span>Truth beside people.</span></footer>
+    </main>
   </div>
 
-  <div class="container brand-row">
-    <button class="menu-toggle" id="menuToggle" aria-label="Menu" aria-expanded="false" data-i18n-aria-label="menu.aria">☰</button>
-    <a href="index.html" class="brand" aria-label="Desh 71">
-      <span class="brand-mark">৭১</span>
-      <span>
-        <strong data-i18n="brand.name">DESH 71</strong>
-        <small data-i18n="brand.tagline">সত্যের পথে সংবাদ</small>
-      </span>
-    </a>
-    <div class="brand-center">
-      <span data-i18n="brand-center.category">বাংলাদেশের সংবাদমাধ্যম</span>
-      <strong data-i18n="brand-center.slogan">সত্যের পাশে, মানুষের সাথে</strong>
-    </div>
-    <div class="header-actions">
-      <button id="languageToggle" class="header-btn" aria-label="Change language">EN</button>
-      <button id="themeToggle" class="header-btn" aria-label="Toggle theme" data-i18n-aria-label="theme.aria">☾</button>
-    </div>
-  </div>
-
-  <nav class="main-nav" id="mainNav" aria-label="Main navigation">
-    <div class="container nav-inner">
-      <a href="index.html" class="nav-link" data-i18n="nav.home">প্রচ্ছদ</a>
-      <a href="category.html?slug=national" class="nav-link" data-i18n="nav.national">জাতীয়</a>
-      <a href="category.html?slug=politics" class="nav-link" data-i18n="nav.politics">রাজনীতি</a>
-      <a href="category.html?slug=international" class="nav-link" data-i18n="nav.international">আন্তর্জাতিক</a>
-      <a href="category.html?slug=sports" class="nav-link" data-i18n="nav.sports">খেলাধুলা</a>
-      <a href="category.html?slug=business" class="nav-link" data-i18n="nav.business">ব্যবসা</a>
-      <a href="category.html?slug=technology" class="nav-link" data-i18n="nav.technology">প্রযুক্তি</a>
-      <a href="category.html?slug=entertainment" class="nav-link" data-i18n="nav.entertainment">বিনোদন</a>
-    </div>
+  <nav class="admin-mobile-nav" aria-label="Mobile admin navigation">
+    <a href="dashboard.html"><span>▦</span><small>Home</small></a>
+    <a class="active" href="articles.html" aria-current="page"><span>▤</span><small>Articles</small></a>
+    <a href="editor.html"><span>＋</span><small>Write</small></a>
+    <a href="categories.html"><span>▧</span><small>Categories</small></a>
   </nav>
-</header>
 
-<main class="container" style="padding-top: 24px;">
-  <article class="article-page article-reader" id="articleRoot">
-    <a class="article-back" href="index.html" id="backLink">← <span data-i18n="nav.home">প্রচ্ছদ</span></a>
-
-    <div id="articleSkeleton">
-      <div class="empty-state"><h3>লোড হচ্ছে…</h3></div>
-    </div>
-
-    <div id="articleContainer" hidden></div>
-  </article>
-</main>
-
-<footer class="site-footer" id="contact">
-  <div class="container footer-content">
-    <div>
-      <a href="index.html" class="brand footer-brand">
-        <span class="brand-mark">৭১</span>
-        <span>
-          <strong data-i18n="brand.name">DESH 71</strong>
-          <small data-i18n="brand.tagline">সত্যের পথে সংবাদ</small>
-        </span>
-      </a>
-      <p data-i18n="footer.tagline">সত্যের পাশে, মানুষের সাথে।</p>
-    </div>
-    <div class="footer-links">
-      <a href="index.html#about" data-i18n="footer.about">আমাদের সম্পর্কে</a>
-      <a href="index.html#news" data-i18n="footer.latest">সর্বশেষ সংবাদ</a>
-      <a href="mailto:info@desh71.com" data-i18n="footer.email">ইমেইল</a>
-    </div>
-  </div>
-  <div class="container copyright">
-    © <span id="year"></span> Desh 71. <span data-i18n="footer.copyright">সর্বস্বত্ব সংরক্ষিত।</span>
-  </div>
-</footer>
-
-<script type="module">
-import {
-  listPublishedArticles,
-  escapeHTML,
-  initializeSharedUI,
-} from "./assets/js/news.js";
-
-import {
-  initI18n,
-  toggleLang,
-  getLang,
-  t,
-} from "./assets/js/i18n.js";
-
-const skeleton = document.querySelector("#articleSkeleton");
-const container = document.querySelector("#articleContainer");
-
-let currentArticle = null;
-
-/* ---------- HELPERS ---------- */
-function getTitle(a) {
-  const lang = getLang();
-  return lang === "bn"
-    ? (a.title_bn || a.title_en || "")
-    : (a.title_en || a.title_bn || "");
-}
-
-function getSummary(a) {
-  const lang = getLang();
-  return lang === "bn"
-    ? (a.summary_bn || a.summary_en || "")
-    : (a.summary_en || a.summary_bn || "");
-}
-
-function getContent(a) {
-  const lang = getLang();
-  return lang === "bn"
-    ? (a.content_bn || a.content_en || "")
-    : (a.content_en || a.content_bn || "");
-}
-
-function getCategoryName(a) {
-  if (!a || !a.category) return t("category.news");
-  const lang = getLang();
-  return lang === "bn"
-    ? (a.category.name_bn || a.category.name_en || t("category.news"))
-    : (a.category.name_en || a.category.name_bn || t("category.news"));
-}
-
-function safeImage(url) {
-  if (!url || typeof url !== "string") return "";
-  const trimmed = url.trim();
-  if (!/^https?:\/\//i.test(trimmed)) return "";
-  return trimmed;
-}
-
-function formatDate(value) {
-  if (!value) return "";
-  try {
-    const d = new Date(value);
-    const locale = getLang() === "bn" ? "bn-BD" : "en-GB";
-    return d.toLocaleDateString(locale, {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    });
-  } catch {
-    return "";
-  }
-}
-
-/* ---------- CONTENT PARSER (inline images) ---------- */
-function renderContent(content) {
-  if (!content) return "";
-
-  const IMG_REGEX = /\[\[DESH71_IMAGE:(https?:\/\/[^\]\s]+)\]\]/g;
-  const parts = [];
-  let lastIndex = 0;
-  let match;
-
-  while ((match = IMG_REGEX.exec(content)) !== null) {
-    if (match.index > lastIndex) {
-      const text = content.slice(lastIndex, match.index).trim();
-      if (text) parts.push({ type: "text", value: text });
-    }
-    parts.push({ type: "image", value: match[1] });
-    lastIndex = match.index + match[0].length;
-  }
-  if (lastIndex < content.length) {
-    const tail = content.slice(lastIndex).trim();
-    if (tail) parts.push({ type: "text", value: tail });
-  }
-  if (!parts.length) parts.push({ type: "text", value: content });
-
-  return parts
-    .map((part) => {
-      if (part.type === "image") {
-        return (
-          '<figure class="article-figure">' +
-          '<img src="' + escapeHTML(part.value) + '" alt="" loading="lazy" />' +
-          "</figure>"
-        );
-      }
-      return part.value
-        .split(/\n{2,}/)
-        .map((para) => {
-          const clean = para.trim();
-          if (!clean) return "";
-          return "<p>" + escapeHTML(clean).replace(/\n/g, "<br>") + "</p>";
-        })
-        .join("");
-    })
-    .join("");
-}
-
-/* ---------- RENDER ---------- */
-function render() {
-  if (!currentArticle) return;
-
-  const a = currentArticle;
-  const img = safeImage(a.image_url);
-  const cat = escapeHTML(getCategoryName(a));
-  const title = escapeHTML(getTitle(a));
-  const summary = escapeHTML(getSummary(a));
-  const body = renderContent(getContent(a));
-  const author = escapeHTML(a.author_name || "");
-  const date = formatDate(a.published_at || a.created_at);
-
-  const heroStyle = img
-    ? ' style="background-image:url(\'' + img + '\')"'
-    : "";
-
-  container.innerHTML =
-    '<div class="hero-main article-hero">' +
-      '<div class="hero-art"' + heroStyle + ">" +
-        "<span>" + cat + "</span>" +
-      "</div>" +
-      '<div class="hero-content">' +
-        '<span class="category-tag">' + cat + "</span>" +
-        "<h1>" + title + "</h1>" +
-        (summary ? "<p>" + summary + "</p>" : "") +
-        '<div class="article-meta">' +
-          (author ? "<span>✍ " + author + "</span>" : "") +
-          (date ? "<span>📅 " + escapeHTML(date) + "</span>" : "") +
-        "</div>" +
-      "</div>" +
-    "</div>" +
-    '<div class="article-body">' +
-      '<div class="article-content">' +
-        (body || "<p>—</p>") +
-      "</div>" +
-    "</div>";
-
-  container.hidden = false;
-  if (skeleton) skeleton.hidden = true;
-
-  // Update page title + meta
-  document.title = (getTitle(a) || "Desh 71") + " | Desh 71";
-}
-
-function renderNotFound() {
-  if (skeleton) skeleton.hidden = true;
-  container.hidden = false;
-  container.innerHTML =
-    '<div class="empty-state">' +
-      "<h3>" + escapeHTML(t("article.noMatch")) + "</h3>" +
-      "<p>" + escapeHTML(t("article.loadErrorSub")) + "</p>" +
-      '<a class="card-read" href="index.html" style="margin-top:14px;">' +
-        escapeHTML(t("article.readMore")) +
-      "</a>" +
-    "</div>";
-}
-
-/* ---------- LOAD ---------- */
-async function load() {
-  const id = new URLSearchParams(location.search).get("id");
-
-  if (!id) {
-    renderNotFound();
-    return;
-  }
-
-  try {
-    const all = await listPublishedArticles();
-    currentArticle = all.find((a) => String(a.id) === String(id));
-    if (!currentArticle) {
-      renderNotFound();
-      return;
-    }
-    render();
-  } catch (err) {
-    console.error(err);
-    renderNotFound();
-  }
-}
-
-/* ---------- INIT ---------- */
-function initialize() {
-  initI18n();
-
-  try {
-    if (typeof initializeSharedUI === "function") initializeSharedUI();
-  } catch (e) {
-    console.warn("[article] shared UI error:", e);
-  }
-
-  document.querySelector("#languageToggle")?.addEventListener("click", () => {
-    toggleLang();
-    if (currentArticle) render();
-  });
-
-  load();
-}
-
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initialize);
-} else {
-  initialize();
-}
-</script>
+  <script>var y=document.getElementById("adminYear");if(y)y.textContent=new Date().getFullYear();</script>
+  <script type="module" src="../assets/js/admin.js"></script>
 </body>
 </html>
