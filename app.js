@@ -26,7 +26,8 @@
       e.preventDefault();
     }
   }, { passive: false });
-})();
+})
+();
 
 "use strict";
 
