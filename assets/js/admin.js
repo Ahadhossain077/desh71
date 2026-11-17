@@ -4,6 +4,27 @@
    Authentication | Dashboard | Articles | Categories
    Featured Image + Inline Image Upload
 ===================================================== */
+/* ========== DISABLE ALL ZOOM (ADMIN) ========== */
+(function () {
+  "use strict";
+
+  document.addEventListener("gesturestart", function (e) {
+    e.preventDefault();
+  }, { passive: false });
+
+  document.addEventListener("touchstart", function (e) {
+    if (e.touches.length > 1) e.preventDefault();
+  }, { passive: false });
+
+  var lastTouchEnd = 0;
+  document.addEventListener("touchend", function (e) {
+    var now = Date.now();
+    if (now - lastTouchEnd <= 300) e.preventDefault();
+    lastTouchEnd = now;
+  }, { passive: false });
+})
+();
+
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import "../../config/supabase.js";
