@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Admin panel & private folders (block indexing)
+Disallow: /admin/
+Disallow: /config/
+
+# Sitemaps
+Sitemap: https://ahadhossain077.github.io/desh71/sitemap.xml
+Sitemap: https://ahadhossain077.github.io/desh71/news-sitemap.xml
