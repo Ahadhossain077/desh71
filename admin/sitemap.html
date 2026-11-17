@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0f1a33">
+  <title>Sitemap Generator | Desh 71 Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../assets/css/pages.css">
+  <style>
+    .sitemap-preview {
+      background: #0f1a33;
+      color: #a7f3d0;
+      padding: 16px;
+      border-radius: 10px;
+      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      font-size: 11px;
+      overflow: auto;
+      max-height: 340px;
+      white-space: pre;
+      line-height: 1.6;
+      border: 1px solid #1a2744;
+    }
+    .sitemap-card {
+      padding: 22px;
+      border: 1px solid #e9edf4;
+      border-radius: 14px;
+      background: #fff;
+      box-shadow: 0 4px 20px rgba(23, 35, 60, 0.06);
+      margin-bottom: 18px;
+    }
+    .sitemap-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .sitemap-card-head h3 {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 800;
+      color: #17233c;
+    }
+    .sitemap-card-head p {
+      margin: 3px 0 0;
+      font-size: 11px;
+      color: #8c99ad;
+    }
+    .sitemap-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .sitemap-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 36px;
+      padding: 0 14px;
+      border: 1px solid #e9edf4;
+      border-radius: 9px;
+      background: #fff;
+      color: #46536a;
+      font: inherit;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: .18s;
+    }
+    .sitemap-btn:hover { background: #f5f7fb; border-color: #cfd8e6; transform: translateY(-1px); }
+    .sitemap-btn.primary {
+      background: linear-gradient(135deg, #315efb, #4b76ff);
+      border-color: transparent;
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(49, 94, 251, 0.28);
+    }
+    .sitemap-btn.primary:hover { background: linear-gradient(135deg, #1f4eed, #3a68f0); }
+    .sitemap-btn.success {
+      background: #e8faf1;
+      border-color: #a7f3d0;
+      color: #1a9d67;
+    }
+    .sitemap-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .sitemap-stats {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 16px 0;
+    }
+    .sitemap-stats span {
+      padding: 8px 14px;
+      background: #edf2ff;
+      color: #315efb;
+      border-radius: 30px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .sitemap-steps {
+      padding: 20px;
+      border: 1px solid #e4eaff;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #ffffff, #f4f8ff);
+      margin-top: 20px;
+    }
+    .sitemap-steps h4 {
+      margin: 0 0 12px;
+      font-size: 13px;
+      color: #17233c;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .sitemap-steps ol {
+      margin: 0;
+      padding-left: 20px;
+      color: #46536a;
+      font-size: 12px;
+      line-height: 1.9;
+    }
+    .sitemap-steps code {
+      background: #edf2ff;
+      color: #315efb;
+      padding: 2px 7px;
+      border-radius: 5px;
+      font-size: 11px;
+      font-family: ui-monospace, monospace;
+    }
+
+    @media (max-width: 700px) {
+      .sitemap-card { padding: 16px; }
+      .sitemap-btn { flex: 1; justify-content: center; }
+      .sitemap-preview { font-size: 10px; max-height: 250px; }
+    }
+  </style>
+</head>
+<body class="admin-body newsroom-admin">
+
+  <aside class="admin-sidebar">
+    <a class="admin-brand" href="../index.html">
+      <span class="admin-brand-mark">৭১</span>
+      <span class="admin-brand-copy">
+        <strong>DESH 71</strong>
+        <small>NEWSROOM CMS</small>
+      </span>
+    </a>
+    <div class="admin-side-label">WORKSPACE</div>
+    <nav class="admin-side-nav" aria-label="Admin navigation">
+      <a class="admin-side-link" href="dashboard.html"><span class="admin-side-icon">▦</span><span>Dashboard</span></a>
+      <a class="admin-side-link" href="articles.html"><span class="admin-side-icon">▤</span><span>Articles</span></a>
+      <a class="admin-side-link" href="editor.html"><span class="admin-side-icon">＋</span><span>Write article</span></a>
+      <a class="admin-side-link" href="categories.html"><span class="admin-side-icon">▧</span><span>Categories</span></a>
+      <a class="admin-side-link active" href="sitemap.html" aria-current="page"><span class="admin-side-icon">◈</span><span>Sitemap</span></a>
+    </nav>
+    <div class="admin-sidebar-bottom">
+      <div class="admin-sidebar-note">
+        <span class="admin-note-dot"></span>
+        <div><strong>Desh 71 CMS</strong><small>Content management</small></div>
+      </div>
+      <a class="admin-back-link" href="../index.html">← View website</a>
+    </div>
+  </aside>
+
+  <div class="admin-main-area">
+    <header class="admin-main-header">
+      <div>
+        <span class="admin-header-eyebrow">DESH 71 / SEO</span>
+        <h2>Sitemap Generator</h2>
+      </div>
+      <div class="admin-header-actions">
+        <a class="admin-view-site" href="../index.html" target="_blank" rel="noopener">↗ View website</a>
+        <button id="signOut" class="admin-signout" type="button">Sign out ↗</button>
+      </div>
+    </header>
+
+    <main class="admin-dashboard-content">
+
+      <section class="admin-welcome">
+        <div class="admin-welcome-copy">
+          <span class="admin-welcome-kicker">GOOGLE SEO</span>
+          <h1>Generate your sitemaps.</h1>
+          <p>Supabase থেকে সব সংবাদ ও ক্যাটাগরি পড়ে অটোমেটিক sitemap তৈরি করুন। ডাউনলোড করে GitHub-এ আপলোড করুন।</p>
+        </div>
+        <button id="generateBtn" class="admin-create-button" type="button">
+          <span>⚡</span> Generate Sitemaps
+        </button>
+      </section>
+
+      <div id="sitemapStats" class="sitemap-stats"></div>
+      <p id="sitemapMessage" class="form-message" role="status" style="text-align: center; margin-bottom: 16px;"></p>
+
+      <div class="sitemap-card">
+        <div class="sitemap-card-head">
+          <div>
+            <h3>📄 sitemap.xml</h3>
+            <p>সব সংবাদ + ক্যাটাগরি + হোমপেজ — Google Search Console এ সাবমিট করুন</p>
+          </div>
+          <div class="sitemap-actions">
+            <button class="sitemap-btn" id="copyMainBtn" type="button" disabled>📋 Copy</button>
+            <button class="sitemap-btn primary" id="downloadMainBtn" type="button" disabled>⬇ Download</button>
+          </div>
+        </div>
+        <div class="sitemap-preview" id="previewMain">Click "Generate Sitemaps" to build…</div>
+      </div>
+
+      <div class="sitemap-card">
+        <div class="sitemap-card-head">
+          <div>
+            <h3>⚡ news-sitemap.xml</h3>
+            <p>শুধু শেষ ৪৮ ঘণ্টার সংবাদ — Google News এর জন্য বিশেষ</p>
+          </div>
+          <div class="sitemap-actions">
+            <button class="sitemap-btn" id="copyNewsBtn" type="button" disabled>📋 Copy</button>
+            <button class="sitemap-btn primary" id="downloadNewsBtn" type="button" disabled>⬇ Download</button>
+          </div>
+        </div>
+        <div class="sitemap-preview" id="previewNews">Click "Generate Sitemaps" to build…</div>
+      </div>
+
+      <div class="sitemap-steps">
+        <h4>📌 Sitemap আপলোড করার ধাপ</h4>
+        <ol>
+          <li>উপরে <strong>"⚡ Generate Sitemaps"</strong> বাটনে ক্লিক করুন</li>
+          <li><strong>⬇ Download</strong> বাটনে ক্লিক করে দুইটা ফাইল ডাউনলোড করুন</li>
+          <li>GitHub-এ গিয়ে আপনার রিপোজিটরির <strong>root ফোল্ডারে</strong> (যেখানে <code>index.html</code> আছে) এই দুইটা ফাইল আপলোড করুন:
+            <br>👉 <code>sitemap.xml</code> &nbsp;|&nbsp; <code>news-sitemap.xml</code>
+          </li>
+          <li>GitHub-এ পুরনো ফাইল থাকলে সেগুলো <strong>Replace</strong> করুন</li>
+          <li>Google Search Console → <strong>Sitemaps</strong> → দুইটার লিংক সাবমিট করুন</li>
+          <li>প্রতিবার নতুন সংবাদ প্রকাশের পর এই ধাপটা আবার করুন (মাত্র ৩০ সেকেন্ড!)</li>
+        </ol>
+      </div>
+
+      <footer class="admin-dashboard-footer">
+        <span>© <span id="adminYear"></span> Desh 71</span>
+        <span>Truth beside people.</span>
+      </footer>
+    </main>
+  </div>
+
+  <nav class="admin-mobile-nav" aria-label="Mobile admin navigation">
+    <a href="dashboard.html"><span>▦</span><small>Home</small></a>
+    <a href="articles.html"><span>▤</span><small>Articles</small></a>
+    <a href="editor.html"><span>＋</span><small>Write</small></a>
+    <a href="categories.html"><span>▧</span><small>Categories</small></a>
+    <a class="active" href="sitemap.html"><span>◈</span><small>Sitemap</small></a>
+  </nav>
+
+  <script>document.getElementById("adminYear").textContent = new Date().getFullYear();</script>
+
+  <script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+    import "../../config/supabase.js";
+
+    /* ===== CONFIG ===== */
+    const BASE_URL = "https://ahadhossain077.github.io/desh71";
+    const SITE_NAME = "Desh 71";
+    const SITE_LANG = "bn";
+
+    const config = window.DESh71_SUPABASE_CONFIG;
+    if (!config?.url || !config?.anonKey) {
+      throw new Error("Supabase configuration not found");
+    }
+    const supabase = createClient(config.url, config.anonKey);
+
+    /* ===== AUTH ===== */
+    async function checkAdmin() {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) { window.location.href = "index.html"; return false; }
+      const { data: isAdmin } = await supabase.rpc("is_admin");
+      if (isAdmin !== true) { window.location.href = "index.html"; return false; }
+      return true;
+    }
+
+    /* ===== HELPERS ===== */
+    function escapeXML(str) {
+      return String(str ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&apos;");
+    }
+
+    function downloadFile(filename, content) {
+      const blob = new Blob([content], { type: "application/xml" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
+
+    async function copyToClipboard(text) {
+      try {
+        await navigator.clipboard.writeText(text);
+        return true;
+      } catch {
+        try {
+          const ta = document.createElement("textarea");
+          ta.value = text;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand("copy");
+          document.body.removeChild(ta);
+          return true;
+        } catch { return false; }
+      }
+    }
+
+    /* ===== GENERATE ===== */
+    async function generateSitemaps() {
+      const [articlesRes, categoriesRes] = await Promise.all([
+        supabase
+          .from("articles")
+          .select("id,title_bn,title_en,published_at,updated_at,status")
+          .eq("status", "published")
+          .order("published_at", { ascending: false }),
+        supabase.from("categories").select("slug,name_bn,name_en").order("slug"),
+      ]);
+
+      if (articlesRes.error) throw articlesRes.error;
+      if (categoriesRes.error) throw categoriesRes.error;
+
+      const articles = articlesRes.data || [];
+      const categories = categoriesRes.data || [];
+      const now = new Date().toISOString();
+
+      /* --- Main sitemap --- */
+      const mainUrls = [
+        `  <url>
+    <loc>${BASE_URL}/</loc>
+    <lastmod>${now}</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>1.0</priority>
+  </url>`,
+        ...categories.map(
+          (c) => `  <url>
+    <loc>${BASE_URL}/category.html?slug=${encodeURIComponent(c.slug)}</loc>
+    <lastmod>${now}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>`
+        ),
+        ...articles.map(
+          (a) => `  <url>
+    <loc>${BASE_URL}/article.html?id=${encodeURIComponent(a.id)}</loc>
+    <lastmod>${a.updated_at || a.published_at || now}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>`
+        ),
+      ].join("\n");
+
+      const mainSitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${mainUrls}
+</urlset>`;
+
+      /* --- News sitemap (last 48h) --- */
+      const cutoff = Date.now() - 48 * 60 * 60 * 1000;
+      const recent = articles.filter((a) => {
+        if (!a.published_at) return false;
+        return new Date(a.published_at).getTime() >= cutoff;
+      });
+
+      const newsUrls = recent.length
+        ? recent
+            .map(
+              (a) => `  <url>
+    <loc>${BASE_URL}/article.html?id=${encodeURIComponent(a.id)}</loc>
+    <news:news>
+      <news:publication>
+        <news:name>${escapeXML(SITE_NAME)}</news:name>
+        <news:language>${SITE_LANG}</news:language>
+      </news:publication>
+      <news:publication_date>${a.published_at}</news:publication_date>
+      <news:title>${escapeXML(a.title_bn || a.title_en)}</news:title>
+    </news:news>
+  </url>`
+            )
+            .join("\n")
+        : "  <!-- No articles in the last 48 hours -->";
+
+      const newsSitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+${newsUrls}
+</urlset>`;
+
+      return {
+        mainSitemap,
+        newsSitemap,
+        articleCount: articles.length,
+        categoryCount: categories.length,
+        recentCount: recent.length,
+      };
+    }
+
+    /* ===== UI ===== */
+    const generateBtn = document.querySelector("#generateBtn");
+    const downloadMainBtn = document.querySelector("#downloadMainBtn");
+    const downloadNewsBtn = document.querySelector("#downloadNewsBtn");
+    const copyMainBtn = document.querySelector("#copyMainBtn");
+    const copyNewsBtn = document.querySelector("#copyNewsBtn");
+    const previewMain = document.querySelector("#previewMain");
+    const previewNews = document.querySelector("#previewNews");
+    const statsEl = document.querySelector("#sitemapStats");
+    const messageEl = document.querySelector("#sitemapMessage");
+
+    let data = null;
+
+    function setMessage(text, type = "") {
+      messageEl.textContent = text;
+      messageEl.className = "form-message " + type;
+    }
+
+    async function handleGenerate() {
+      generateBtn.disabled = true;
+      setMessage("⏳ Generating sitemaps…");
+
+      try {
+        data = await generateSitemaps();
+
+        previewMain.textContent = data.mainSitemap;
+        previewNews.textContent = data.newsSitemap;
+
+        statsEl.innerHTML = `
+          <span>📰 ${data.articleCount} articles</span>
+          <span>📂 ${data.categoryCount} categories</span>
+          <span>⚡ ${data.recentCount} last 48h</span>
+        `;
+
+        setMessage("✅ Sitemaps ready! Download and upload to GitHub.", "success");
+
+        downloadMainBtn.disabled = false;
+        downloadNewsBtn.disabled = false;
+        copyMainBtn.disabled = false;
+        copyNewsBtn.disabled = false;
+      } catch (err) {
+        console.error(err);
+        setMessage("❌ " + err.message, "error");
+      } finally {
+        generateBtn.disabled = false;
+      }
+    }
+
+    generateBtn.addEventListener("click", handleGenerate);
+
+    downloadMainBtn.addEventListener("click", () => {
+      if (!data) return;
+      downloadFile("sitemap.xml", data.mainSitemap);
+      setMessage("✅ sitemap.xml downloaded", "success");
+    });
+
+    downloadNewsBtn.addEventListener("click", () => {
+      if (!data) return;
+      downloadFile("news-sitemap.xml", data.newsSitemap);
+      setMessage("✅ news-sitemap.xml downloaded", "success");
+    });
+
+    copyMainBtn.addEventListener("click", async () => {
+      if (!data) return;
+      const ok = await copyToClipboard(data.mainSitemap);
+      setMessage(ok ? "✅ sitemap.xml copied" : "❌ Copy failed", ok ? "success" : "error");
+    });
+
+    copyNewsBtn.addEventListener("click", async () => {
+      if (!data) return;
+      const ok = await copyToClipboard(data.newsSitemap);
+      setMessage(ok ? "✅ news-sitemap.xml copied" : "❌ Copy failed", ok ? "success" : "error");
+    });
+
+    /* Sign out */
+    document.querySelector("#signOut")?.addEventListener("click", async () => {
+      await supabase.auth.signOut();
+      window.location.href = "index.html";
+    });
+
+    /* ===== INIT ===== */
+    (async () => {
+      const ok = await checkAdmin();
+      if (!ok) return;
+      handleGenerate();
+    })();
+  </script>
+</body>
+</html>
