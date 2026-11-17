@@ -251,3 +251,11 @@ export function countLabel(count) {
   if (lang === "bn") return count + " " + t("article.count");
   return count + " " + t("article.count");
 }
+
+/* Listen for external language changes */
+document.addEventListener("lang:changed", (e) => {
+  const newLang = e.detail === "en" ? "en" : "bn";
+  if (newLang === _cachedLang) return;
+  _cachedLang = newLang;
+  applyTranslations();
+});
