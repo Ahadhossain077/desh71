@@ -680,3 +680,211 @@
     transition-duration: 0.001ms !important;
   }
 }
+
+/* =========================================
+   ADMIN ARTICLES TABLE
+========================================= */
+.admin-articles-table-wrap {
+  position: relative;
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius);
+  background: #fff;
+  box-shadow: var(--admin-shadow);
+  overflow: hidden;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.admin-articles-table {
+  width: 100%;
+  min-width: 640px;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.admin-articles-table thead {
+  background: #f7f9fc;
+}
+
+.admin-articles-table th {
+  padding: 13px 16px;
+  text-align: left;
+  color: #6b7688;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--admin-border);
+}
+
+.admin-articles-table tbody tr {
+  transition: background .18s ease;
+  border-bottom: 1px solid #f1f4f9;
+}
+
+.admin-articles-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.admin-articles-table tbody tr:hover {
+  background: #f9fbff;
+}
+
+.admin-articles-table td {
+  padding: 14px 16px;
+  color: var(--admin-text);
+  vertical-align: middle;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.admin-articles-table td strong {
+  font-weight: 700;
+  color: #17233c;
+}
+
+.admin-articles-table td .article-title-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 220px;
+}
+
+.admin-articles-table td .article-title-cell strong {
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.admin-articles-table td .article-title-cell small {
+  color: #929db0;
+  font-size: 10px;
+}
+
+.admin-table-loading {
+  text-align: center;
+  color: #8c99ad;
+  font-size: 12px;
+  padding: 32px 16px !important;
+}
+
+/* Status badges */
+.admin-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .3px;
+  white-space: nowrap;
+}
+
+.admin-status.published {
+  background: #e8faf1;
+  color: #1a9d67;
+}
+
+.admin-status.draft {
+  background: #fff4e5;
+  color: #d17d1c;
+}
+
+.admin-status::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* Action buttons in table */
+.admin-row-actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.admin-row-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 30px;
+  padding: 0 11px;
+  border: 1px solid var(--admin-border);
+  border-radius: 7px;
+  background: #fff;
+  color: #46536a;
+  font: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background .18s, border-color .18s, color .18s, transform .18s;
+  white-space: nowrap;
+}
+
+.admin-row-btn:hover {
+  background: #f5f7fb;
+  border-color: #cfd8e6;
+  transform: translateY(-1px);
+}
+
+.admin-row-btn.edit {
+  color: #315efb;
+  border-color: #d6e2ff;
+}
+
+.admin-row-btn.edit:hover {
+  background: #edf2ff;
+  border-color: #315efb;
+}
+
+.admin-row-btn.delete {
+  color: #dc4b55;
+  border-color: #ffe0e0;
+}
+
+.admin-row-btn.delete:hover {
+  background: #fff3f3;
+  border-color: #ffc9c9;
+}
+
+/* Empty state */
+.admin-empty-row td {
+  text-align: center;
+  padding: 40px 16px !important;
+  color: #8c99ad;
+  font-size: 12px;
+}
+
+/* Mobile responsive table */
+@media (max-width: 700px) {
+  .admin-articles-table-wrap {
+    border-radius: 12px;
+  }
+  .admin-articles-table {
+    min-width: 560px;
+    font-size: 11px;
+  }
+  .admin-articles-table th,
+  .admin-articles-table td {
+    padding: 11px 12px;
+  }
+  .admin-articles-table td .article-title-cell {
+    min-width: 160px;
+  }
+  .admin-articles-table td .article-title-cell strong {
+    font-size: 12px;
+  }
+  .admin-row-btn {
+    min-height: 28px;
+    padding: 0 9px;
+    font-size: 9px;
+  }
+  .admin-status {
+    font-size: 9px;
+    padding: 3px 8px;
+  }
+}
