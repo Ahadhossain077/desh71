@@ -1,236 +1,100 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <meta name="theme-color" content="#102c50">
-  <title>Category | Desh 71</title>
-  <meta name="description" content="Desh 71 - বাংলা ও ইংরেজি সংবাদ বিভাগ।">
-  <meta name="robots" content="index, follow, max-image-preview:large">
-  <link rel="canonical" href="https://ahadhossain077.github.io/desh71/category.html">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23102c50'/><text x='50' y='72' font-size='60' font-weight='700' text-anchor='middle' fill='white' font-family='sans-serif'>৭১</text></svg>">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0f1a33">
+  <title>Categories | Desh 71 Admin</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../assets/css/pages.css">
 </head>
-<body>
+<body class="admin-body newsroom-admin">
 
-<header class="site-header">
-  <div class="topbar">
-    <div class="container topbar-inner">
-      <span id="todayDate">আজকের সংবাদ</span>
-      <div class="top-links">
-        <a href="index.html#about" data-i18n="topbar.about">আমাদের সম্পর্কে</a>
-        <a href="index.html#contact" data-i18n="topbar.contact">যোগাযোগ</a>
+  <aside class="admin-sidebar">
+    <a class="admin-brand" href="../index.html"><span class="admin-brand-mark">৭১</span><span class="admin-brand-copy"><strong>DESH 71</strong><small>NEWSROOM CMS</small></span></a>
+    <div class="admin-side-label">WORKSPACE</div>
+    <nav class="admin-side-nav" aria-label="Admin navigation">
+      <a class="admin-side-link" href="dashboard.html"><span class="admin-side-icon">▦</span><span>Dashboard</span></a>
+      <a class="admin-side-link" href="articles.html"><span class="admin-side-icon">▤</span><span>Articles</span></a>
+      <a class="admin-side-link" href="editor.html"><span class="admin-side-icon">＋</span><span>Write article</span></a>
+      <a class="admin-side-link active" href="categories.html" aria-current="page"><span class="admin-side-icon">▧</span><span>Categories</span></a>
+    </nav>
+    <div class="admin-sidebar-bottom">
+      <div class="admin-sidebar-note"><span class="admin-note-dot"></span><div><strong>Desh 71 CMS</strong><small>Content management</small></div></div>
+      <a class="admin-back-link" href="../index.html">← View website</a>
+    </div>
+  </aside>
+
+  <div class="admin-main-area">
+    <header class="admin-main-header">
+      <div><span class="admin-header-eyebrow">DESH 71 / CONTENT</span><h2>Categories</h2></div>
+      <div class="admin-header-actions">
+        <a class="admin-view-site" href="../index.html" target="_blank" rel="noopener">↗ View website</a>
+        <button id="signOut" class="admin-signout" type="button">Sign out ↗</button>
       </div>
-    </div>
+    </header>
+
+    <main class="admin-dashboard-content">
+      <section class="admin-welcome">
+        <div class="admin-welcome-copy">
+          <span class="admin-welcome-kicker">NEWS SECTIONS</span>
+          <h1>Organize categories.</h1>
+          <p>Create and manage the news sections shown on Desh 71.</p>
+        </div>
+        <a class="admin-create-button" href="#categoryForm"><span>＋</span> New category</a>
+      </section>
+
+      <section class="admin-overview-section">
+        <div class="admin-section-heading">
+          <div><span class="admin-section-kicker">EDITOR</span><h2 id="categoryFormHeading">Add category</h2></div>
+          <span class="admin-live-label"><i></i> Live data</span>
+        </div>
+
+        <form id="categoryForm" class="admin-form-section" novalidate>
+          <input type="hidden" name="id">
+          <div class="admin-form-grid">
+            <label class="admin-field"><span class="admin-field-label">Name (Bangla) <em>*</em></span><input name="name_bn" type="text" required maxlength="100" placeholder="যেমন: জাতীয়"></label>
+            <label class="admin-field"><span class="admin-field-label">Name (English) <em>*</em></span><input name="name_en" type="text" required maxlength="100" placeholder="e.g. National"></label>
+            <label class="admin-field admin-field-full"><span class="admin-field-label">URL slug <em>*</em></span><input name="slug" type="text" required pattern="[a-z0-9]+(?:-[a-z0-9]+)*" maxlength="100" placeholder="e.g. national" autocomplete="off" spellcheck="false"><small class="admin-field-hint">শুধু ছোট হাতের অক্ষর, সংখ্যা ও হাইফেন (-)</small></label>
+          </div>
+          <div class="admin-form-actions">
+            <p id="formMessage" class="admin-form-message" role="status"></p>
+            <div class="admin-form-buttons">
+              <button id="cancelCategoryEdit" type="button" class="admin-ghost-btn" hidden>Cancel edit</button>
+              <button class="admin-primary-btn" type="submit"><span>💾</span> Save category</button>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <section class="admin-overview-section">
+        <div class="admin-section-heading"><div><span class="admin-section-kicker">ALL CATEGORIES</span><h2>Category list</h2></div></div>
+        <div class="admin-articles-table-wrap">
+          <table class="admin-articles-table">
+            <thead><tr><th>Bangla</th><th>English</th><th>Slug</th><th>Actions</th></tr></thead>
+            <tbody id="categoryRows">
+              <tr><td colspan="4" class="admin-table-loading">Loading categories…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <footer class="admin-dashboard-footer"><span>© <span id="adminYear"></span> Desh 71</span><span>Truth beside people.</span></footer>
+    </main>
   </div>
 
-  <div class="container brand-row">
-    <button class="menu-toggle" id="menuToggle" aria-label="Menu" aria-expanded="false" data-i18n-aria-label="menu.aria">☰</button>
-    <a href="index.html" class="brand" aria-label="Desh 71">
-      <span class="brand-mark">৭১</span>
-      <span>
-        <strong data-i18n="brand.name">DESH 71</strong>
-        <small data-i18n="brand.tagline">সত্যের পথে সংবাদ</small>
-      </span>
-    </a>
-    <div class="brand-center">
-      <span data-i18n="brand-center.category">বাংলাদেশের সংবাদমাধ্যম</span>
-      <strong data-i18n="brand-center.slogan">সত্যের পাশে, মানুষের সাথে</strong>
-    </div>
-    <div class="header-actions">
-      <button id="languageToggle" class="header-btn" aria-label="Change language">EN</button>
-      <button id="themeToggle" class="header-btn" aria-label="Toggle theme" data-i18n-aria-label="theme.aria">☾</button>
-    </div>
-  </div>
-
-  <nav class="main-nav" id="mainNav" aria-label="Main navigation">
-    <div class="container nav-inner">
-      <a href="index.html" class="nav-link" data-i18n="nav.home">প্রচ্ছদ</a>
-      <a href="category.html?slug=national" class="nav-link" data-i18n="nav.national">জাতীয়</a>
-      <a href="category.html?slug=politics" class="nav-link" data-i18n="nav.politics">রাজনীতি</a>
-      <a href="category.html?slug=international" class="nav-link" data-i18n="nav.international">আন্তর্জাতিক</a>
-      <a href="category.html?slug=sports" class="nav-link" data-i18n="nav.sports">খেলাধুলা</a>
-      <a href="category.html?slug=business" class="nav-link" data-i18n="nav.business">ব্যবসা</a>
-      <a href="category.html?slug=technology" class="nav-link" data-i18n="nav.technology">প্রযুক্তি</a>
-      <a href="category.html?slug=entertainment" class="nav-link" data-i18n="nav.entertainment">বিনোদন</a>
-    </div>
+  <nav class="admin-mobile-nav" aria-label="Mobile admin navigation">
+    <a href="dashboard.html"><span>▦</span><small>Home</small></a>
+    <a href="articles.html"><span>▤</span><small>Articles</small></a>
+    <a href="editor.html"><span>＋</span><small>Write</small></a>
+    <a class="active" href="categories.html" aria-current="page"><span>▧</span><small>Categories</small></a>
   </nav>
-</header>
 
-<main>
-  <section class="container hero-section" style="padding-top:20px;">
-    <div class="section-heading">
-      <div>
-        <span class="eyebrow">CATEGORY</span>
-        <h1 id="categoryHeading">বিভাগ</h1>
-      </div>
-      <span class="live-indicator"><i></i> <span data-i18n="hero.live">সর্বশেষ আপডেট</span></span>
-    </div>
-
-    <div class="news-grid" id="categoryGrid">
-      <div class="empty-state"><h3>লোড হচ্ছে…</h3></div>
-    </div>
-
-    <p class="result-message" id="resultMessage" aria-live="polite"></p>
-  </section>
-</main>
-
-<footer class="site-footer" id="contact">
-  <div class="container footer-content">
-    <div>
-      <a href="index.html" class="brand footer-brand">
-        <span class="brand-mark">৭১</span>
-        <span>
-          <strong data-i18n="brand.name">DESH 71</strong>
-          <small data-i18n="brand.tagline">সত্যের পথে সংবাদ</small>
-        </span>
-      </a>
-      <p data-i18n="footer.tagline">সত্যের পাশে, মানুষের সাথে।</p>
-    </div>
-    <div class="footer-links">
-      <a href="index.html#about" data-i18n="footer.about">আমাদের সম্পর্কে</a>
-      <a href="index.html#news" data-i18n="footer.latest">সর্বশেষ সংবাদ</a>
-      <a href="mailto:info@desh71.com" data-i18n="footer.email">ইমেইল</a>
-    </div>
-  </div>
-  <div class="container copyright">
-    © <span id="year"></span> Desh 71. <span data-i18n="footer.copyright">সর্বস্বত্ব সংরক্ষিত।</span>
-  </div>
-</footer>
-
-<script type="module">
-import {
-  listPublishedArticles,
-  renderArticleCards,
-  escapeHTML,
-  initializeSharedUI,
-} from "./assets/js/news.js";
-
-import {
-  initI18n,
-  toggleLang,
-  getLang,
-  t,
-} from "./assets/js/i18n.js";
-
-const grid = document.querySelector("#categoryGrid");
-const result = document.querySelector("#resultMessage");
-const heading = document.querySelector("#categoryHeading");
-
-let allArticles = [];
-let currentSlug = "";
-let currentCategory = null;
-
-function getCategoryName(cat) {
-  if (!cat) return "";
-  const lang = getLang();
-  return lang === "bn"
-    ? (cat.name_bn || cat.name_en || "")
-    : (cat.name_en || cat.name_bn || "");
-}
-
-function updateHeading() {
-  if (!heading) return;
-  if (currentCategory) {
-    heading.textContent = getCategoryName(currentCategory);
-  } else {
-    heading.textContent = t("category.heading");
-  }
-}
-
-function renderCategory() {
-  if (!grid) return;
-
-  const filtered = allArticles.filter((article) => {
-    if (!article.category) return false;
-    return article.category.slug === currentSlug;
-  });
-
-  if (!filtered.length) {
-    grid.innerHTML =
-      '<div class="empty-state">' +
-        "<span>📰</span>" +
-        "<h3>" + escapeHTML(t("article.noArticles")) + "</h3>" +
-        "<p>" + escapeHTML(t("article.noArticlesSub")) + "</p>" +
-      "</div>";
-    if (result) result.textContent = "";
-    return;
-  }
-
-  grid.innerHTML = renderArticleCards(filtered, getLang());
-
-  if (result) {
-    result.textContent = filtered.length + " " + t("article.count");
-  }
-}
-
-async function load() {
-  const slug = new URLSearchParams(location.search).get("slug") || "";
-
-  if (!slug) {
-    grid.innerHTML =
-      '<div class="empty-state"><h3>' + escapeHTML(t("category.all")) + "</h3></div>";
-    return;
-  }
-
-  currentSlug = slug;
-
-  try {
-    allArticles = await listPublishedArticles();
-
-    // Find category object from any matching article
-    const sample = allArticles.find(
-      (a) => a.category && a.category.slug === slug
-    );
-    if (sample) currentCategory = sample.category;
-
-    updateHeading();
-    renderCategory();
-  } catch (err) {
-    console.error(err);
-    grid.innerHTML =
-      '<div class="empty-state">' +
-        "<h3>" + escapeHTML(t("article.loadError")) + "</h3>" +
-        "<p>" + escapeHTML(t("article.loadErrorSub")) + "</p>" +
-      "</div>";
-  }
-}
-
-function initialize() {
-  initI18n();
-
-  try {
-    if (typeof initializeSharedUI === "function") initializeSharedUI();
-  } catch (e) {
-    console.warn("[category] shared UI error:", e);
-  }
-
-  // Highlight current nav link
-  const slug = new URLSearchParams(location.search).get("slug");
-  document.querySelectorAll(".nav-inner a").forEach((link) => {
-    if (slug && link.getAttribute("href")?.includes("slug=" + slug)) {
-      link.classList.add("active");
-    }
-  });
-
-  // Language toggle
-  document.querySelector("#languageToggle")?.addEventListener("click", () => {
-    toggleLang();
-    updateHeading();
-    renderCategory();
-  });
-
-  load();
-}
-
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initialize);
-} else {
-  initialize();
-}
-</script>
+  <script>var y=document.getElementById("adminYear");if(y)y.textContent=new Date().getFullYear();</script>
+  <script type="module" src="../assets/js/admin.js"></script>
 </body>
 </html>
