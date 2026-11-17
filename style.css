@@ -1054,3 +1054,568 @@ textarea:focus-visible {
     font-size: 16px !important;
   }
 }
+
+/* =====================================================
+   DESH 71 — BANGLA TYPOGRAPHY (PERFECT)
+   Optimized for Bengali readability
+===================================================== */
+
+/* ---------- 1. FONT STACKS ---------- */
+:root {
+  /* Bangla primary — Hind Siliguri → Noto Sans Bengali → system */
+  --font-bn: "Hind Siliguri", "Noto Sans Bengali", "SolaimanLipi",
+             "Kalpurush", "Bangla", "Vrinda", sans-serif;
+
+  /* English + numerals */
+  --font-en: "Inter", "Segoe UI", system-ui, -apple-system,
+             "Helvetica Neue", Arial, sans-serif;
+
+  /* Mixed default (Bangla-first) */
+  --font-mixed: "Hind Siliguri", "Inter", "Noto Sans Bengali",
+                "Segoe UI", system-ui, sans-serif;
+}
+
+/* ---------- 2. GLOBAL BASE ---------- */
+html {
+  font-kerning: normal;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-mixed);
+  font-size: 16px;
+  line-height: 1.75;                /* Bangla-এর জন্য বেশি */
+  letter-spacing: 0;                /* Bangla-এ negative spacing ক্ষতিকর */
+  word-spacing: 0.02em;
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+  font-variant-ligatures: common-ligatures;
+}
+
+/* Bengali text rendering improvements */
+[lang="bn"],
+.bn,
+:lang(bn) {
+  font-family: var(--font-bn);
+  line-height: 1.8;
+  letter-spacing: 0;
+}
+
+/* English text blocks */
+[lang="en"],
+.en,
+:lang(en) {
+  font-family: var(--font-en);
+  letter-spacing: 0.01em;
+}
+
+/* ---------- 3. HEADINGS ---------- */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-bn);
+  font-weight: 700;
+  line-height: 1.35;                /* Bangla-এ tighter */
+  letter-spacing: 0;
+  word-break: keep-all;             /* বাংলা শব্দ ভাঙবে না */
+  overflow-wrap: anywhere;
+  text-wrap: balance;               /* সুন্দর line break */
+}
+
+h1 {
+  font-size: clamp(24px, 3.4vw, 34px);
+  line-height: 1.3;
+  font-weight: 800;
+}
+
+h2 {
+  font-size: clamp(20px, 2.8vw, 28px);
+  line-height: 1.32;
+  font-weight: 800;
+}
+
+h3 {
+  font-size: clamp(17px, 2.2vw, 22px);
+  line-height: 1.4;
+  font-weight: 700;
+}
+
+h4 {
+  font-size: clamp(15px, 1.8vw, 18px);
+  line-height: 1.45;
+  font-weight: 700;
+}
+
+/* ---------- 4. BODY PARAGRAPHS ---------- */
+p {
+  font-family: var(--font-bn);
+  line-height: 1.85;
+  letter-spacing: 0;
+  word-spacing: 0.02em;
+  text-align: left;                 /* justify বাংলায় খারাপ দেখায় */
+  hanging-punctuation: first;
+}
+
+/* Larger body on mobile for readability */
+@media (max-width: 760px) {
+  body { font-size: 16px; line-height: 1.8; }
+  p    { line-height: 1.9; }
+}
+
+/* ---------- 5. BRAND / LOGO TEXT (English) ---------- */
+.brand strong,
+.footer-brand strong,
+.brand-center span {
+  font-family: var(--font-en);
+  letter-spacing: 1.5px;
+  font-weight: 900;
+}
+
+.brand small,
+.footer-brand small {
+  font-family: var(--font-bn);
+  letter-spacing: 0.3px;
+}
+
+.brand-mark,
+.footer-brand .brand-mark {
+  font-family: "Hind Siliguri", "Noto Sans Bengali", sans-serif;
+  font-weight: 800;
+}
+
+/* Brand center headline (সত্যের পাশে...) */
+.brand-center strong {
+  font-family: var(--font-bn);
+  letter-spacing: 0;
+  line-height: 1.3;
+  font-weight: 800;
+}
+
+/* ---------- 6. NAVIGATION ---------- */
+.nav-inner a,
+.topbar,
+.top-links a,
+.header-actions button {
+  font-family: var(--font-bn);
+  letter-spacing: 0;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* Topbar-এ তারিখ Bangla-ই থাকুক */
+#todayDate {
+  font-family: var(--font-bn);
+  letter-spacing: 0.2px;
+  font-weight: 500;
+}
+
+/* ---------- 7. NEWS CARD ---------- */
+.news-card-body h3,
+.side-card h3,
+.hero-content h1 {
+  font-family: var(--font-bn);
+  line-height: 1.45;
+  letter-spacing: 0;
+  font-weight: 800;
+}
+
+.news-card-body h3 {
+  font-size: 18px;
+  margin: 9px 0 7px;
+}
+
+@media (max-width: 760px) {
+  .news-card-body h3 { font-size: 15.5px; line-height: 1.5; }
+  .side-card h3       { font-size: 15px; line-height: 1.5; }
+  .hero-content h1    { font-size: 22px; line-height: 1.35; }
+}
+
+/* Summary text */
+.news-card-body p,
+.hero-content p,
+.side-card small {
+  font-family: var(--font-bn);
+  line-height: 1.75;
+  letter-spacing: 0;
+}
+
+.news-card-body p {
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+@media (max-width: 760px) {
+  .news-card-body p { font-size: 13px; line-height: 1.7; }
+}
+
+/* ---------- 8. CATEGORY TAG / BADGES ---------- */
+.category-tag,
+.breaking-label,
+.hero-art span,
+.live-indicator {
+  font-family: var(--font-bn);
+  letter-spacing: 0.2px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+/* ---------- 9. SECTION HEADINGS ---------- */
+.section-heading h1,
+.section-heading h2,
+.news-section h2 {
+  font-family: var(--font-bn);
+  letter-spacing: 0;
+  line-height: 1.35;
+  font-weight: 800;
+}
+
+/* Eyebrow = English uppercase (Inter) */
+.eyebrow {
+  font-family: var(--font-en);
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+/* ---------- 10. FILTER BUTTONS ---------- */
+#categoryFilters .filter-btn {
+  font-family: var(--font-bn);
+  letter-spacing: 0;
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+/* ---------- 11. SEARCH BOX ---------- */
+.search-box input,
+.search-form input,
+#searchInput,
+#searchButton {
+  font-family: var(--font-bn);
+  letter-spacing: 0;
+  line-height: 1.4;
+}
+
+#searchInput::placeholder {
+  font-family: var(--font-bn);
+  letter-spacing: 0;
+}
+
+/* Search button icon (⌕) আকার বড় */
+#searchButton,
+.search-box button,
+.search-form button {
+  font-family: var(--font-en);
+  font-size: 18px;
+}
+
+/* ---------- 12. META / DATES / NUMBERS ---------- */
+/* English numerals consistently */
+.news-meta,
+.news-meta span,
+.news-meta time,
+.result-message,
+.card-read,
+.read-more {
+  font-family: var(--font-mixed);
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* Author name → Bangla */
+.news-meta .author,
+.side-card small {
+  font-family: var(--font-bn);
+}
+
+/* ---------- 13. ARTICLE BODY (long-form) ---------- */
+.article-content {
+  font-family: var(--font-bn);
+  font-size: 17px;
+  line-height: 1.95;                /* দীর্ঘ পড়ার জন্য optimum */
+  letter-spacing: 0;
+  word-spacing: 0.02em;
+  color: var(--text);
+}
+
+.article-content p {
+  margin-bottom: 1.3em;
+  line-height: 1.95;
+}
+
+.article-content h2 {
+  margin-top: 2em;
+  margin-bottom: 0.6em;
+  font-size: clamp(20px, 2.6vw, 26px);
+  line-height: 1.4;
+}
+
+.article-content h3 {
+  margin-top: 1.6em;
+  margin-bottom: 0.5em;
+  font-size: clamp(18px, 2.2vw, 22px);
+  line-height: 1.45;
+}
+
+.article-content blockquote {
+  margin: 1.5em 0;
+  padding: 14px 20px;
+  border-left: 4px solid var(--primary);
+  background: var(--surface-soft);
+  font-family: var(--font-bn);
+  font-size: 17px;
+  font-style: normal;
+  line-height: 1.85;
+  border-radius: 0 8px 8px 0;
+}
+
+.article-content ul,
+.article-content ol {
+  padding-left: 1.4em;
+  line-height: 1.9;
+}
+
+.article-content li {
+  margin-bottom: 0.5em;
+}
+
+.article-content img {
+  border-radius: var(--radius);
+  margin: 1.4em 0;
+}
+
+.article-content figcaption {
+  font-family: var(--font-bn);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: 8px;
+}
+
+.article-content a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+.article-content a:hover {
+  color: var(--primary-dark);
+}
+
+@media (max-width: 760px) {
+  .article-content { font-size: 16px; line-height: 1.9; }
+  .article-content p { margin-bottom: 1.2em; }
+}
+
+/* ---------- 14. FORM ELEMENTS (admin + public) ---------- */
+input,
+textarea,
+select,
+button {
+  font-family: var(--font-bn);
+  letter-spacing: 0;
+  line-height: 1.5;
+}
+
+input::placeholder,
+textarea::placeholder {
+  font-family: var(--font-bn);
+  letter-spacing: 0;
+}
+
+/* Buttons with mixed content */
+.btn,
+button[type="submit"] {
+  font-family: var(--font-bn);
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+/* ---------- 15. BANGLA PUNCTUATION ---------- */
+/* দাঁড়ি (।) ও কমার চারপাশে স্পেস ঠিক করা */
+.article-content p,
+.news-card-body p,
+.hero-content p {
+  /* দাঁড়ির পরে double space হবে না */
+  white-space: normal;
+}
+
+/* Bengali numerals — option to enable */
+.bn-numerals {
+  font-feature-settings: "ss01" 1;
+}
+
+/* English numerals (dates, times) */
+.news-meta,
+#todayDate,
+time {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- 16. MIXED BANGLA + ENGLISH ---------- */
+/* English word inside Bangla sentence */
+.mixed,
+.article-content em,
+.article-content strong {
+  font-family: var(--font-bn);
+}
+
+.article-content code,
+.article-content kbd {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.92em;
+  padding: 2px 6px;
+  background: var(--surface-soft);
+  border-radius: 4px;
+}
+
+/* ---------- 17. NEWSLETTER / FOOTER ---------- */
+.newsletter h2,
+.newsletter p,
+.newsletter-btn {
+  font-family: var(--font-bn);
+  letter-spacing: 0;
+}
+
+.newsletter h2 {
+  line-height: 1.4;
+}
+
+.newsletter p {
+  line-height: 1.75;
+}
+
+.site-footer h3,
+.site-footer p,
+.site-footer a,
+.footer-links a {
+  font-family: var(--font-bn);
+  letter-spacing: 0;
+  line-height: 1.6;
+}
+
+.copyright {
+  font-family: var(--font-mixed);
+  letter-spacing: 0.2px;
+}
+
+/* ---------- 18. EMPTY STATES ---------- */
+.empty-state h3,
+.empty-state p {
+  font-family: var(--font-bn);
+  line-height: 1.6;
+  letter-spacing: 0;
+}
+
+/* ---------- 19. DARK MODE ADJUSTMENTS ---------- */
+body.dark h1,
+body.dark h2,
+body.dark h3,
+body.dark h4 {
+  color: var(--text);
+  font-weight: 800;
+}
+
+body.dark p,
+body.dark .article-content {
+  color: var(--text);
+  font-weight: 400;
+}
+
+body.dark .news-card-body h3,
+body.dark .side-card h3 {
+  color: var(--text);
+}
+
+/* Bengali letter contrast improve */
+body.dark .article-content,
+body.dark .news-card-body p {
+  color: #dde5ef;
+}
+
+/* ---------- 20. MOBILE TYPOGRAPHY ---------- */
+@media (max-width: 480px) {
+  body {
+    font-size: 15.5px;
+    line-height: 1.8;
+  }
+
+  h1 { font-size: 23px; line-height: 1.35; }
+  h2 { font-size: 20px; line-height: 1.4; }
+  h3 { font-size: 17px; line-height: 1.45; }
+
+  .article-content {
+    font-size: 16px;
+    line-height: 1.9;
+  }
+
+  .article-content h2 { font-size: 20px; }
+  .article-content h3 { font-size: 18px; }
+
+  .section-heading h1,
+  .section-heading h2 {
+    font-size: 19px;
+    line-height: 1.4;
+  }
+}
+
+/* ---------- 21. iOS SAFARI SPECIFIC ---------- */
+@supports (-webkit-touch-callout: none) {
+  body {
+    /* iOS-এ বাংলা ফন্ট রেন্ডারিং আরও ভালো */
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Bangla input ज़وم রোধ */
+  input, textarea, select {
+    font-size: 16px;
+  }
+}
+
+/* ---------- 22. WORD-BREAK SAFETY ---------- */
+/* লম্বা বাংলা শব্দ overflow করবে না */
+.news-card-body h3,
+.hero-content h1,
+.side-card h3,
+.article-content,
+.article-content p {
+  overflow-wrap: anywhere;
+  word-break: normal;
+  hyphens: none;
+}
+
+/* লম্বা URL বা email */
+a {
+  overflow-wrap: anywhere;
+}
+
+/* ---------- 23. FOCUS STATES ---------- */
+input:focus,
+textarea:focus,
+select:focus {
+  font-family: var(--font-bn);
+}
+
+/* ---------- 24. PRINT ---------- */
+@media print {
+  body {
+    font-family: "Hind Siliguri", "Noto Sans Bengali", serif;
+    font-size: 12pt;
+    line-height: 1.7;
+    color: #000;
+    background: #fff;
+  }
+
+  h1, h2, h3 {
+    color: #000;
+    page-break-after: avoid;
+  }
+
+  .article-content {
+    font-size: 12pt;
+    line-height: 1.8;
+  }
+}
