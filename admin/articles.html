@@ -1,2 +1,77 @@
+
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex"><title>Articles | Desh 71 Admin</title><link rel="stylesheet" href="../style.css"><link rel="stylesheet" href="../assets/css/pages.css"></head><body class="admin-body"><header class="admin-top"><a class="brand" href="../index.html"><span class="brand-mark">৭১</span><span><strong>DESH 71</strong><small>Admin</small></span></a><button id="signOut" class="header-btn">Sign out</button></header><main class="admin-content"><h1>Articles</h1><nav class="admin-nav"><a href="dashboard.html">Dashboard</a><a href="articles.html">Articles</a><a href="categories.html">Categories</a></nav><a class="primary-button inline-button" href="editor.html">Create article</a><p id="adminMessage" class="form-message" role="status"></p><div class="table-wrap"><table><thead><tr><th>Title (English)</th><th>Status</th><th>Updated</th><th>Actions</th></tr></thead><tbody id="articleRows"><tr><td colspan="4">Loading…</td></tr></tbody></table></div></main><script type="module" src="../assets/js/admin.js"></script></body></html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+
+  <title>Articles | Desh 71 Admin</title>
+
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../assets/css/pages.css">
+</head>
+
+<body class="admin-body">
+
+  <header class="admin-top">
+    <a class="brand" href="../index.html">
+      <span class="brand-mark">৭১</span>
+      <span>
+        <strong>DESH 71</strong>
+        <small>Admin</small>
+      </span>
+    </a>
+
+    <button id="signOut" class="header-btn" type="button">
+      Sign out
+    </button>
+  </header>
+
+  <main class="admin-content">
+
+    <div class="articles-heading">
+      <div>
+        <h1>Articles</h1>
+        <p>Manage your Desh 71 news articles.</p>
+      </div>
+
+      <a class="primary-button inline-button" href="editor.html">
+        + Create article
+      </a>
+    </div>
+
+    <nav class="admin-nav">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="articles.html" aria-current="page">Articles</a>
+      <a href="categories.html">Categories</a>
+    </nav>
+
+    <p id="adminMessage" class="form-message" role="status"></p>
+
+    <section class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Title (English)</th>
+            <th>Status</th>
+            <th>Updated</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <!-- IMPORTANT: This ID must match admin.js -->
+        <tbody id="articlesList">
+          <tr>
+            <td colspan="4">Loading articles...</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+  </main>
+
+  <script type="module" src="../assets/js/admin.js"></script>
+
+</body>
+</html>
