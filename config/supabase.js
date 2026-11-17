@@ -1,6 +1,8 @@
-// Public browser configuration only. Replace both placeholders with your Supabase
-// project URL and publishable (anon) key. Never put a service_role/secret key here.
+
+// Desh 71 - Supabase Public Configuration
+// Never put service_role or secret keys here.
+
 window.DESh71_SUPABASE_CONFIG = Object.freeze({
-  url: "YOUR_SUPABASE_PROJECT_URL",
-  anonKey: "YOUR_SUPABASE_PUBLISHABLE_OR_ANON_KEY"
+  url: "https://yrgklxaygvceqchkizrx.supabase.co",
+  anonKey: "sb_publishable_AszVI0PPJFCDWoXn2CYJGA_OdCUENdc"
 });
