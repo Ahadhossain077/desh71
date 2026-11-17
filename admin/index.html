@@ -5,83 +5,133 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="robots" content="noindex, nofollow">
   <meta name="theme-color" content="#0f1a33">
-  <title>Admin Login | Desh 71</title>
-  
+  <title>Article editor | Desh 71 Admin</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
   <link rel="stylesheet" href="../style.css">
   <link rel="stylesheet" href="../assets/css/pages.css">
-
-  <style>
-    .admin-login-body {
-      display: flex; align-items: center; justify-content: center;
-      min-height: 100vh; background: #f5f7fb; margin: 0;
-      font-family: "DM Sans", "Hind Siliguri", sans-serif;
-    }
-    .admin-login-card {
-      width: 100%; max-width: 420px; padding: 40px 30px;
-      background: #ffffff; border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(23, 35, 60, 0.08); margin: 20px;
-    }
-    .admin-login-brand {
-      display: flex; align-items: center; justify-content: center;
-      gap: 12px; margin-bottom: 30px; text-decoration: none; color: #0f1a33;
-    }
-    .admin-login-brand-mark {
-      display: grid; place-items: center; width: 46px; height: 46px;
-      border-radius: 12px; background: linear-gradient(135deg, #315efb, #5b83ff);
-      color: #fff; font-size: 24px; font-weight: 700;
-    }
-    .admin-login-brand strong { font-size: 20px; letter-spacing: 1.5px; }
-    .admin-login-card h1 { text-align: center; font-size: 20px; margin-bottom: 25px; color: #17233c; }
-    .admin-login-field { display: grid; gap: 6px; margin-bottom: 18px; }
-    .admin-login-field label { font-size: 12px; font-weight: 700; color: #46536a; }
-    .admin-login-field input {
-      width: 100%; padding: 12px 14px; border: 1px solid #e9edf4;
-      border-radius: 10px; background: #fbfcfe; font-size: 16px;
-      font-family: inherit; outline: none; transition: .2s; box-sizing: border-box;
-    }
-    .admin-login-field input:focus {
-      border-color: #315efb; background: #fff; box-shadow: 0 0 0 4px rgba(49, 94, 251, 0.1);
-    }
-    .admin-login-btn {
-      width: 100%; padding: 14px; margin-top: 10px; background: #315efb;
-      color: #fff; border: 0; border-radius: 10px; font-size: 14px;
-      font-weight: 700; cursor: pointer; transition: .2s;
-    }
-    .admin-login-btn:hover { background: #1f4eed; transform: translateY(-1px); }
-    .admin-login-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-  </style>
 </head>
-<body class="admin-login-body">
+<body class="admin-body newsroom-admin">
 
-  <div class="admin-login-card">
-    <a href="../index.html" class="admin-login-brand">
-      <span class="admin-login-brand-mark">৭১</span>
-      <strong>DESH 71</strong>
-    </a>
+  <aside class="admin-sidebar">
+    <a class="admin-brand" href="../index.html"><span class="admin-brand-mark">৭১</span><span class="admin-brand-copy"><strong>DESH 71</strong><small>NEWSROOM CMS</small></span></a>
+    <div class="admin-side-label">WORKSPACE</div>
+    <nav class="admin-side-nav" aria-label="Admin navigation">
+      <a class="admin-side-link" href="dashboard.html"><span class="admin-side-icon">▦</span><span>Dashboard</span></a>
+      <a class="admin-side-link" href="articles.html"><span class="admin-side-icon">▤</span><span>Articles</span></a>
+      <a class="admin-side-link active" href="editor.html" aria-current="page"><span class="admin-side-icon">＋</span><span>Write article</span></a>
+      <a class="admin-side-link" href="categories.html"><span class="admin-side-icon">▧</span><span>Categories</span></a>
+      <a class="admin-side-link" href="sitemap.html"><span class="admin-side-icon">◈</span><span>Sitemap</span></a>
+    </nav>
+    <div class="admin-sidebar-bottom">
+      <div class="admin-sidebar-note"><span class="admin-note-dot"></span><div><strong>Desh 71 CMS</strong><small>Content management</small></div></div>
+      <a class="admin-back-link" href="../index.html">← View website</a>
+    </div>
+  </aside>
 
-    <h1>Newsroom Admin Login</h1>
-
-    <form id="loginForm">
-      <div class="admin-login-field">
-        <label for="email">Email Address</label>
-        <input type="email" id="email" name="email" required placeholder="admin@desh71.com" autocomplete="email">
+  <div class="admin-main-area">
+    <header class="admin-main-header">
+      <div><span class="admin-header-eyebrow">DESH 71 / EDITOR</span><h2>Article editor</h2></div>
+      <div class="admin-header-actions">
+        <a class="admin-view-site" href="../index.html" target="_blank" rel="noopener">↗ View website</a>
+        <button id="signOut" class="admin-signout" type="button">Sign out ↗</button>
       </div>
+    </header>
 
-      <div class="admin-login-field">
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" required placeholder="••••••••" autocomplete="current-password">
-      </div>
+    <main class="admin-dashboard-content">
+      <section class="admin-welcome">
+        <div class="admin-welcome-copy">
+          <span class="admin-welcome-kicker">WRITE & PUBLISH</span>
+          <h1 id="editorHeading">Create article</h1>
+          <p>Write in Bangla and English, add images, then publish to Desh 71.</p>
+        </div>
+        <a class="admin-create-button" href="articles.html"><span>▤</span> All articles</a>
+      </section>
 
-      <button type="submit" class="admin-login-btn">Sign In</button>
-      
-      <p id="formMessage" class="form-message" style="text-align: center; margin-top: 15px;"></p>
-    </form>
+      <form id="articleForm" class="admin-editor-form" novalidate>
+
+        <section class="admin-form-section">
+          <div class="admin-form-section-head"><span class="admin-form-section-num">01</span><div><h3>Titles</h3><p>Article heading in both languages.</p></div></div>
+          <div class="admin-form-grid">
+            <label class="admin-field"><span class="admin-field-label">Title (Bangla) <em>*</em></span><input name="title_bn" type="text" required maxlength="300" placeholder="সংবাদের শিরোনাম লিখুন..."></label>
+            <label class="admin-field"><span class="admin-field-label">Title (English) <em>*</em></span><input name="title_en" type="text" required maxlength="300" placeholder="Write the English headline..."></label>
+          </div>
+        </section>
+
+        <section class="admin-form-section">
+          <div class="admin-form-section-head"><span class="admin-form-section-num">02</span><div><h3>Summaries</h3><p>Short description shown on cards and previews.</p></div></div>
+          <div class="admin-form-grid">
+            <label class="admin-field"><span class="admin-field-label">Summary (Bangla) <em>*</em></span><textarea name="summary_bn" rows="3" required placeholder="সংক্ষিপ্ত সারাংশ লিখুন..."></textarea></label>
+            <label class="admin-field"><span class="admin-field-label">Summary (English) <em>*</em></span><textarea name="summary_en" rows="3" required placeholder="Short English summary..."></textarea></label>
+          </div>
+        </section>
+
+        <section class="admin-form-section">
+          <div class="admin-form-section-head"><span class="admin-form-section-num">03</span><div><h3>Bangla article body</h3><p>Write the full Bangla story and insert images at cursor.</p></div></div>
+          <label class="admin-field"><span class="admin-field-label">Article body (Bangla) <em>*</em></span><textarea id="content_bn" name="content_bn" rows="12" required placeholder="সংবাদের বিস্তারিত লিখুন..."></textarea></label>
+          <div class="admin-inline-tools">
+            <div class="admin-inline-tools-head"><strong>📷 Bangla Article Images</strong><span class="admin-inline-hint">Insert at cursor</span></div>
+            <input type="file" id="inlineImagesBn" accept="image/jpeg,image/png,image/webp" multiple hidden>
+            <button type="button" id="uploadInlineBn" class="admin-secondary-btn"><span class="admin-btn-icon">＋</span> ছবি Upload ও লেখায় যুক্ত করো</button>
+            <p class="admin-inline-help">Gallery থেকে এক বা একাধিক ছবি নির্বাচন করো। ছবি Cursor-এর অবস্থানে যুক্ত হবে।</p>
+            <p id="inlineStatusBn" class="admin-inline-status" role="status"></p>
+          </div>
+        </section>
+
+        <section class="admin-form-section">
+          <div class="admin-form-section-head"><span class="admin-form-section-num">04</span><div><h3>English article body</h3><p>Write the full English story and insert images at cursor.</p></div></div>
+          <label class="admin-field"><span class="admin-field-label">Article body (English) <em>*</em></span><textarea id="content_en" name="content_en" rows="12" required placeholder="Write the full English article..."></textarea></label>
+          <div class="admin-inline-tools">
+            <div class="admin-inline-tools-head"><strong>📷 English Article Images</strong><span class="admin-inline-hint">Insert at cursor</span></div>
+            <input type="file" id="inlineImagesEn" accept="image/jpeg,image/png,image/webp" multiple hidden>
+            <button type="button" id="uploadInlineEn" class="admin-secondary-btn"><span class="admin-btn-icon">＋</span> Upload and insert images</button>
+            <p class="admin-inline-help">Select one or more images from your phone gallery. Images will be inserted at the cursor position.</p>
+            <p id="inlineStatusEn" class="admin-inline-status" role="status"></p>
+          </div>
+        </section>
+
+        <section class="admin-form-section">
+          <div class="admin-form-section-head"><span class="admin-form-section-num">05</span><div><h3>Featured image</h3><p>The hero thumbnail shown on the homepage.</p></div></div>
+          <div class="admin-image-upload-box">
+            <label class="admin-image-drop" for="articleImage">
+              <span class="admin-image-drop-icon">🖼️</span>
+              <span class="admin-image-drop-text"><strong>Choose a featured image</strong><small>JPG, PNG, WEBP · Max 5 MB</small></span>
+            </label>
+            <input type="file" id="articleImage" accept="image/jpeg,image/png,image/webp" hidden>
+            <img id="imagePreview" class="admin-image-preview" alt="Article image preview" hidden>
+            <label class="admin-checkbox"><input type="checkbox" id="removeImage"><span>Remove current image</span></label>
+          </div>
+        </section>
+
+        <section class="admin-form-section">
+          <div class="admin-form-section-head"><span class="admin-form-section-num">06</span><div><h3>Meta & publishing</h3><p>Category, author and visibility.</p></div></div>
+          <div class="admin-form-grid">
+            <label class="admin-field"><span class="admin-field-label">Category <em>*</em></span><select name="category_id" id="categorySelect" required><option value="">Loading categories…</option></select></label>
+            <label class="admin-field"><span class="admin-field-label">Author</span><input name="author_name" type="text" maxlength="160" placeholder="Author name"></label>
+            <label class="admin-field"><span class="admin-field-label">Status</span><select name="status"><option value="draft">Draft</option><option value="published">Published</option></select></label>
+          </div>
+        </section>
+
+        <div class="admin-form-submit">
+          <p id="formMessage" class="admin-form-message" role="status"></p>
+          <button class="admin-primary-btn" type="submit"><span>💾</span> Save article</button>
+        </div>
+      </form>
+
+      <footer class="admin-dashboard-footer"><span>© <span id="adminYear"></span> Desh 71</span><span>Truth beside people.</span></footer>
+    </main>
   </div>
 
+  <nav class="admin-mobile-nav" aria-label="Mobile admin navigation">
+    <a href="dashboard.html"><span>▦</span><small>Home</small></a>
+    <a href="articles.html"><span>▤</span><small>Articles</small></a>
+    <a class="active" href="editor.html" aria-current="page"><span>＋</span><small>Write</small></a>
+    <a href="categories.html"><span>▧</span><small>Categories</small></a>
+    <a href="sitemap.html"><span>◈</span><small>Sitemap</small></a>
+  </nav>
+
+  <script>var y=document.getElementById("adminYear");if(y)y.textContent=new Date().getFullYear();</script>
   <script type="module" src="../assets/js/admin.js"></script>
 </body>
 </html>
