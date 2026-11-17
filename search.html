@@ -1,2 +1,252 @@
 <!DOCTYPE html>
-<html lang="bn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Search | Desh 71</title><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="assets/css/pages.css"><link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet"></head><body><header class="page-header"><a class="brand" href="index.html"><span class="brand-mark">৭১</span><span><strong>DESH 71</strong><small>সত্যের পথে সংবাদ</small></span></a><div class="header-actions"><button id="languageToggle" class="header-btn">EN</button><button id="themeToggle" class="header-btn" aria-label="Toggle theme">☾</button></div></header><main class="page-container"><a href="index.html" class="back-link">← প্রচ্ছদ</a><h1 id="searchHeading">অনুসন্ধানের ফলাফল</h1><form class="search-box" id="searchForm"><input id="searchInput" type="search" aria-label="Search"><button type="submit" aria-label="Search">⌕</button></form><p id="searchCount" class="result-message" aria-live="polite"></p><div class="news-grid" id="searchGrid"><div class="empty-state">অনুসন্ধান চলছে…</div></div></main><script type="module" src="assets/js/search.js"></script></body></html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#102c50">
+  <title>Search | Desh 71</title>
+  <meta name="description" content="Desh 71 - সংবাদ খুঁজুন।">
+  <meta name="robots" content="noindex, follow">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23102c50'/><text x='50' y='72' font-size='60' font-weight='700' text-anchor='middle' fill='white' font-family='sans-serif'>৭১</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="topbar">
+    <div class="container topbar-inner">
+      <span id="todayDate">আজকের সংবাদ</span>
+      <div class="top-links">
+        <a href="index.html#about" data-i18n="topbar.about">আমাদের সম্পর্কে</a>
+        <a href="index.html#contact" data-i18n="topbar.contact">যোগাযোগ</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container brand-row">
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu" aria-expanded="false" data-i18n-aria-label="menu.aria">☰</button>
+    <a href="index.html" class="brand" aria-label="Desh 71">
+      <span class="brand-mark">৭১</span>
+      <span>
+        <strong data-i18n="brand.name">DESH 71</strong>
+        <small data-i18n="brand.tagline">সত্যের পথে সংবাদ</small>
+      </span>
+    </a>
+    <div class="brand-center">
+      <span data-i18n="brand-center.category">বাংলাদেশের সংবাদমাধ্যম</span>
+      <strong data-i18n="brand-center.slogan">সত্যের পাশে, মানুষের সাথে</strong>
+    </div>
+    <div class="header-actions">
+      <button id="languageToggle" class="header-btn" aria-label="Change language">EN</button>
+      <button id="themeToggle" class="header-btn" aria-label="Toggle theme" data-i18n-aria-label="theme.aria">☾</button>
+    </div>
+  </div>
+
+  <nav class="main-nav" id="mainNav" aria-label="Main navigation">
+    <div class="container nav-inner">
+      <a href="index.html" class="nav-link" data-i18n="nav.home">প্রচ্ছদ</a>
+      <a href="category.html?slug=national" class="nav-link" data-i18n="nav.national">জাতীয়</a>
+      <a href="category.html?slug=politics" class="nav-link" data-i18n="nav.politics">রাজনীতি</a>
+      <a href="category.html?slug=international" class="nav-link" data-i18n="nav.international">আন্তর্জাতিক</a>
+      <a href="category.html?slug=sports" class="nav-link" data-i18n="nav.sports">খেলাধুলা</a>
+      <a href="category.html?slug=business" class="nav-link" data-i18n="nav.business">ব্যবসা</a>
+      <a href="category.html?slug=technology" class="nav-link" data-i18n="nav.technology">প্রযুক্তি</a>
+      <a href="category.html?slug=entertainment" class="nav-link" data-i18n="nav.entertainment">বিনোদন</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <section class="container hero-section" style="padding-top:20px;">
+    <div class="section-heading">
+      <div>
+        <span class="eyebrow">SEARCH</span>
+        <h1 data-i18n="search.results">সার্চ ফলাফল</h1>
+      </div>
+    </div>
+
+    <form class="search-box" id="searchForm" role="search" style="max-width: 600px; margin-bottom: 18px;">
+      <input
+        type="search"
+        id="searchInput"
+        placeholder="সংবাদ খুঁজুন..."
+        aria-label="Search news"
+        autocomplete="off"
+        data-i18n-placeholder="search.placeholder"
+        data-i18n-aria-label="search.aria"
+      >
+      <button type="submit" aria-label="Search">⌕</button>
+    </form>
+
+    <p id="searchQuery" class="result-message" style="text-align:left; font-weight:600;"></p>
+
+    <div class="news-grid" id="searchGrid">
+      <div class="empty-state"><h3>লোড হচ্ছে…</h3></div>
+    </div>
+
+    <p class="result-message" id="resultMessage" aria-live="polite"></p>
+  </section>
+</main>
+
+<footer class="site-footer" id="contact">
+  <div class="container footer-content">
+    <div>
+      <a href="index.html" class="brand footer-brand">
+        <span class="brand-mark">৭১</span>
+        <span>
+          <strong data-i18n="brand.name">DESH 71</strong>
+          <small data-i18n="brand.tagline">সত্যের পথে সংবাদ</small>
+        </span>
+      </a>
+      <p data-i18n="footer.tagline">সত্যের পাশে, মানুষের সাথে।</p>
+    </div>
+    <div class="footer-links">
+      <a href="index.html#about" data-i18n="footer.about">আমাদের সম্পর্কে</a>
+      <a href="index.html#news" data-i18n="footer.latest">সর্বশেষ সংবাদ</a>
+      <a href="mailto:info@desh71.com" data-i18n="footer.email">ইমেইল</a>
+    </div>
+  </div>
+  <div class="container copyright">
+    © <span id="year"></span> Desh 71. <span data-i18n="footer.copyright">সর্বস্বত্ব সংরক্ষিত।</span>
+  </div>
+</footer>
+
+<script type="module">
+import {
+  listPublishedArticles,
+  renderArticleCards,
+  escapeHTML,
+  initializeSharedUI,
+} from "./assets/js/news.js";
+
+import {
+  initI18n,
+  toggleLang,
+  getLang,
+  t,
+} from "./assets/js/i18n.js";
+
+const form = document.querySelector("#searchForm");
+const input = document.querySelector("#searchInput");
+const grid = document.querySelector("#searchGrid");
+const result = document.querySelector("#resultMessage");
+const queryLabel = document.querySelector("#searchQuery");
+
+let allArticles = [];
+let currentQuery = "";
+
+function matchesQuery(article, q) {
+  if (!q) return false;
+  const lower = q.toLocaleLowerCase();
+  return [
+    article.title_bn,
+    article.title_en,
+    article.summary_bn,
+    article.summary_en,
+    article.content_bn,
+    article.content_en,
+  ].some((v) => (v || "").toLocaleLowerCase().includes(lower));
+}
+
+function render() {
+  if (!grid) return;
+
+  if (!currentQuery) {
+    grid.innerHTML =
+      '<div class="empty-state">' +
+        "<span>🔍</span>" +
+        "<h3>" + escapeHTML(t("search.placeholder")) + "</h3>" +
+      "</div>";
+    if (queryLabel) queryLabel.textContent = "";
+    if (result) result.textContent = "";
+    return;
+  }
+
+  const matching = allArticles.filter((a) => matchesQuery(a, currentQuery));
+
+  if (queryLabel) {
+    const q = escapeHTML(currentQuery);
+    const prefix = getLang() === "bn" ? "সার্চ: " : "Search: ";
+    queryLabel.innerHTML = '<span style="color:var(--text-muted);">' + prefix + "</span>" +
+      '<span style="color:var(--primary);">“' + q + '”</span>';
+  }
+
+  if (!matching.length) {
+    grid.innerHTML =
+      '<div class="empty-state">' +
+        "<span>🔍</span>" +
+        "<h3>" + escapeHTML(t("search.noResults")) + "</h3>" +
+        "<p>&quot;" + escapeHTML(currentQuery) + "&quot;</p>" +
+      "</div>";
+    if (result) result.textContent = "";
+    return;
+  }
+
+  grid.innerHTML = renderArticleCards(matching, getLang());
+
+  if (result) {
+    result.textContent = matching.length + " " + t("article.count");
+  }
+}
+
+async function load() {
+  currentQuery =
+    new URLSearchParams(location.search).get("q")?.trim() || "";
+
+  if (input) input.value = currentQuery;
+
+  try {
+    allArticles = await listPublishedArticles();
+    render();
+  } catch (err) {
+    console.error(err);
+    grid.innerHTML =
+      '<div class="empty-state">' +
+        "<h3>" + escapeHTML(t("article.loadError")) + "</h3>" +
+        "<p>" + escapeHTML(t("article.loadErrorSub")) + "</p>" +
+      "</div>";
+  }
+}
+
+function initialize() {
+  initI18n();
+
+  try {
+    if (typeof initializeSharedUI === "function") initializeSharedUI();
+  } catch (e) {
+    console.warn("[search] shared UI error:", e);
+  }
+
+  document.querySelector("#languageToggle")?.addEventListener("click", () => {
+    toggleLang();
+    render();
+  });
+
+  form?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const q = input?.value.trim() || "";
+    if (!q) {
+      input?.focus();
+      return;
+    }
+    const url = new URL(location.href);
+    url.searchParams.set("q", q);
+    history.pushState({}, "", url);
+    currentQuery = q;
+    render();
+  });
+
+  load();
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initialize);
+} else {
+  initialize();
+}
+</script>
+</body>
+</html>
