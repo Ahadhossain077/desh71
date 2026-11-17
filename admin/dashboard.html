@@ -2,8 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="robots" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <meta name="googlebot" content="noindex, nofollow">
+  <meta name="theme-color" content="#0f1a33">
+  <meta name="color-scheme" content="light">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Desh 71 Admin">
   <title>Dashboard | Desh 71 Admin</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,7 +33,7 @@
 
     <div class="admin-side-label">WORKSPACE</div>
     <nav class="admin-side-nav" aria-label="Admin navigation">
-      <a class="admin-side-link active" href="dashboard.html">
+      <a class="admin-side-link active" href="dashboard.html" aria-current="page">
         <span class="admin-side-icon">▦</span>
         <span>Dashboard</span>
       </a>
@@ -94,7 +102,6 @@
         </div>
 
         <div id="dashboardStats" class="admin-stats newsroom-stats" aria-live="polite">
-          <!-- JS এই আইডিগুলো খোঁজে, তাই অপরিবর্তিত রাখা হয়েছে -->
           <div class="admin-stat-card">
             <span class="admin-stat-icon">▤</span>
             <span class="admin-stat-label">Total Articles</span>
@@ -177,7 +184,7 @@
 
   <!-- ===== MOBILE BOTTOM NAV ===== -->
   <nav class="admin-mobile-nav" aria-label="Mobile admin navigation">
-    <a class="active" href="dashboard.html"><span>▦</span><small>Home</small></a>
+    <a class="active" href="dashboard.html" aria-current="page"><span>▦</span><small>Home</small></a>
     <a href="articles.html"><span>▤</span><small>Articles</small></a>
     <a href="editor.html"><span>＋</span><small>Write</small></a>
     <a href="categories.html"><span>▧</span><small>Categories</small></a>
