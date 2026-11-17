@@ -1,21 +1,22 @@
+
 /* =====================================================
-   DESH 71 - ADMIN PANEL
-   Supabase Authentication, Dashboard, Articles,
-   Categories and Image Upload
+   DESH 71 - COMPLETE ADMIN PANEL
+   Authentication | Dashboard | Articles
+   Categories | Supabase Storage Image Upload
 ===================================================== */
 
-const supabase = window.supabase.createClient(
-  window.DESh71_SUPABABASE_CONFIG.url,
-  window.DESh71_SUPABABASE_CONFIG.anonKey
-);
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import "../../config/supabase.js";
+
+const config = window.DESh71_SUPABABASE_CONFIG;
+
+if (!config?.url || !config?.anonKey) {
+  throw new Error("Supabase configuration not found.");
+}
+
+const supabase = createClient(config.url, config.anonKey);
 
 const $ = (selector) => document.querySelector(selector);
-
-const showMessage = (element, message, type = "error") => {
-  if (!element) return;
-  element.textContent = message;
-  element.className = `form-message ${type}`;
-};
 
 const escapeHTML = (value = "") =>
   String(value).replace(/[&<>"']/g, (char) => ({
@@ -26,11 +27,20 @@ const escapeHTML = (value = "") =>
     "'": "&#039;"
   })[char]);
 
-async function getAdminSession() {
-  const { data: { session }, error } =
-    await supabase.auth.getSession();
+function showMessage(element, message, type = "error") {
+  if (!element) return;
+  element.textContent = message;
+  element.className = `form-message ${type}`;
+}
 
-  if (error || !session) {
+/* =====================================================
+   AUTHENTICATION
+===================================================== */
+
+async function getAdminSession() {
+  const { data, error } = await supabase.auth.getSession();
+
+  if (error || !data.session) {
     window.location.href = "login.html";
     return null;
   }
@@ -38,29 +48,42 @@ async function getAdminSession() {
   const { data: isAdmin, error: roleError } =
     await supabase.rpc("is_admin");
 
-  if (roleError || !isAdmin) {
+  if (roleError || isAdmin !== true) {
     await supabase.auth.signOut();
     window.location.href = "login.html";
     return null;
   }
 
-  return session;
+  return data.session;
 }
 
 async function adminLogout() {
-  await supabase.auth.signOut();
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    alert(error.message);
+    return;
+  }
+
   window.location.href = "login.html";
 }
 
-/* LOGIN */
+/* =====================================================
+   LOGIN
+===================================================== */
 
 async function adminLogin(event) {
   event.preventDefault();
 
   const form = event.currentTarget;
-  const email = form.querySelector('[name="email"]').value.trim();
-  const password = form.querySelector('[name="password"]').value;
+  const email = form.querySelector('[name="email"]')?.value.trim();
+  const password = form.querySelector('[name="password"]')?.value;
   const message = $("#formMessage");
+
+  if (!email || !password) {
+    showMessage(message, "Enter your email and password.");
+    return;
+  }
 
   showMessage(message, "Logging in...", "info");
 
@@ -77,7 +100,7 @@ async function adminLogin(event) {
   const { data: isAdmin, error: roleError } =
     await supabase.rpc("is_admin");
 
-  if (roleError || !isAdmin) {
+  if (roleError || isAdmin !== true) {
     await supabase.auth.signOut();
     showMessage(message, "Admin access denied.");
     return;
@@ -86,27 +109,55 @@ async function adminLogin(event) {
   window.location.href = "dashboard.html";
 }
 
-/* DASHBOARD */
+/* =====================================================
+   DASHBOARD
+===================================================== */
 
 async function loadDashboard() {
   const session = await getAdminSession();
   if (!session) return;
 
-  const [articles, published, drafts, categories] =
-    await Promise.all([
-      supabase.from("articles").select("id", { count: "exact", head: true }),
-      supabase.from("articles").select("id", { count: "exact", head: true }).eq("status", "published"),
-      supabase.from("articles").select("id", { count: "exact", head: true }).eq("status", "draft"),
-      supabase.from("categories").select("id", { count: "exact", head: true })
-    ]);
+  const queries = await Promise.all([
+    supabase.from("articles")
+      .select("id", { count: "exact", head: true }),
 
-  if ($("#totalArticles")) $("#totalArticles").textContent = articles.count ?? 0;
-  if ($("#publishedArticles")) $("#publishedArticles").textContent = published.count ?? 0;
-  if ($("#draftArticles")) $("#draftArticles").textContent = drafts.count ?? 0;
-  if ($("#totalCategories")) $("#totalCategories").textContent = categories.count ?? 0;
+    supabase.from("articles")
+      .select("id", { count: "exact", head: true })
+      .eq("status", "published"),
+
+    supabase.from("articles")
+      .select("id", { count: "exact", head: true })
+      .eq("status", "draft"),
+
+    supabase.from("categories")
+      .select("id", { count: "exact", head: true })
+  ]);
+
+  const [articles, published, drafts, categories] = queries;
+
+  const error = queries.find(result => result.error);
+
+  if (error) {
+    console.error("Dashboard error:", error.error);
+    return;
+  }
+
+  if ($("#totalArticles"))
+    $("#totalArticles").textContent = articles.count ?? 0;
+
+  if ($("#publishedArticles"))
+    $("#publishedArticles").textContent = published.count ?? 0;
+
+  if ($("#draftArticles"))
+    $("#draftArticles").textContent = drafts.count ?? 0;
+
+  if ($("#totalCategories"))
+    $("#totalCategories").textContent = categories.count ?? 0;
 }
 
-/* ARTICLE LIST */
+/* =====================================================
+   ARTICLES LIST
+===================================================== */
 
 async function loadArticles() {
   const session = await getAdminSession();
@@ -125,26 +176,42 @@ async function loadArticles() {
     return;
   }
 
-  container.innerHTML = (data || []).map(article => `
+  if (!data?.length) {
+    container.innerHTML = "<p>No articles found.</p>";
+    return;
+  }
+
+  container.innerHTML = data.map(article => `
     <tr>
       <td>${escapeHTML(article.title_bn)}</td>
       <td>${escapeHTML(article.title_en)}</td>
       <td>${escapeHTML(article.status)}</td>
       <td>
-        <a href="editor.html?id=${encodeURIComponent(article.id)}">Edit</a>
-        <button type="button" data-delete-article="${escapeHTML(article.id)}">Delete</button>
+        <a href="editor.html?id=${encodeURIComponent(article.id)}">
+          Edit
+        </a>
+
+        <button
+          type="button"
+          data-delete-article="${escapeHTML(article.id)}">
+          Delete
+        </button>
       </td>
     </tr>
   `).join("");
 
-  container.querySelectorAll("[data-delete-article]").forEach(button => {
-    button.addEventListener("click", () =>
-      deleteArticle(button.dataset.deleteArticle)
-    );
-  });
+  container.querySelectorAll("[data-delete-article]")
+    .forEach(button => {
+      button.addEventListener("click", () => {
+        deleteArticle(button.dataset.deleteArticle);
+      });
+    });
 }
 
 async function deleteArticle(id) {
+  const session = await getAdminSession();
+  if (!session) return;
+
   if (!confirm("Delete this article permanently?")) return;
 
   const { error } = await supabase
@@ -157,10 +224,12 @@ async function deleteArticle(id) {
     return;
   }
 
-  loadArticles();
+  await loadArticles();
 }
 
-/* CATEGORIES */
+/* =====================================================
+   CATEGORIES
+===================================================== */
 
 async function loadCategories() {
   const session = await getAdminSession();
@@ -179,25 +248,38 @@ async function loadCategories() {
     return;
   }
 
-  container.innerHTML = (data || []).map(category => `
+  if (!data?.length) {
+    container.innerHTML = "<p>No categories found.</p>";
+    return;
+  }
+
+  container.innerHTML = data.map(category => `
     <tr>
       <td>${escapeHTML(category.name_bn)}</td>
       <td>${escapeHTML(category.name_en)}</td>
       <td>${escapeHTML(category.slug)}</td>
       <td>
-        <button type="button" data-delete-category="${escapeHTML(category.id)}">Delete</button>
+        <button
+          type="button"
+          data-delete-category="${escapeHTML(category.id)}">
+          Delete
+        </button>
       </td>
     </tr>
   `).join("");
 
-  container.querySelectorAll("[data-delete-category]").forEach(button => {
-    button.addEventListener("click", () =>
-      deleteCategory(button.dataset.deleteCategory)
-    );
-  });
+  container.querySelectorAll("[data-delete-category]")
+    .forEach(button => {
+      button.addEventListener("click", () => {
+        deleteCategory(button.dataset.deleteCategory);
+      });
+    });
 }
 
 async function deleteCategory(id) {
+  const session = await getAdminSession();
+  if (!session) return;
+
   if (!confirm("Delete this category?")) return;
 
   const { error } = await supabase
@@ -210,11 +292,14 @@ async function deleteCategory(id) {
     return;
   }
 
-  loadCategories();
+  await loadCategories();
 }
 
 async function saveCategory(event) {
   event.preventDefault();
+
+  const session = await getAdminSession();
+  if (!session) return;
 
   const form = event.currentTarget;
   const formData = new FormData(form);
@@ -225,6 +310,11 @@ async function saveCategory(event) {
     slug: formData.get("slug")?.trim()
   };
 
+  if (!category.name_bn || !category.name_en || !category.slug) {
+    showMessage($("#formMessage"), "Complete all category fields.");
+    return;
+  }
+
   const { error } = await supabase
     .from("categories")
     .insert(category);
@@ -234,12 +324,39 @@ async function saveCategory(event) {
     return;
   }
 
-  showMessage($("#formMessage"), "Category saved successfully.", "success");
+  showMessage(
+    $("#formMessage"),
+    "Category saved successfully.",
+    "success"
+  );
+
   form.reset();
-  loadCategories();
+  await loadCategories();
 }
 
-/* ARTICLE EDITOR */
+/* =====================================================
+   IMAGE PREVIEW
+===================================================== */
+
+function displayImagePreview(imagePreview, source) {
+  if (!imagePreview) return;
+
+  imagePreview.src = source;
+  imagePreview.hidden = false;
+  imagePreview.style.display = "block";
+}
+
+function hideImagePreview(imagePreview) {
+  if (!imagePreview) return;
+
+  imagePreview.removeAttribute("src");
+  imagePreview.hidden = true;
+  imagePreview.style.display = "none";
+}
+
+/* =====================================================
+   ARTICLE EDITOR + IMAGE UPLOAD
+===================================================== */
 
 async function loadEditor() {
   const session = await getAdminSession();
@@ -258,9 +375,16 @@ async function loadEditor() {
   const articleId = params.get("id");
 
   let existingImage = "";
+  let existingPublishedAt = null;
+  let previewObjectUrl = null;
+
+  /* LOAD CATEGORIES */
 
   const { data: categories, error: categoryError } =
-    await supabase.from("categories").select("*").order("created_at");
+    await supabase
+      .from("categories")
+      .select("*")
+      .order("created_at");
 
   if (categoryError) {
     showMessage(message, categoryError.message);
@@ -272,10 +396,13 @@ async function loadEditor() {
       '<option value="">Select category</option>' +
       (categories || []).map(category => `
         <option value="${escapeHTML(category.id)}">
-          ${escapeHTML(category.name_bn)} / ${escapeHTML(category.name_en)}
+          ${escapeHTML(category.name_bn)} /
+          ${escapeHTML(category.name_en)}
         </option>
       `).join("");
   }
+
+  /* LOAD EXISTING ARTICLE */
 
   if (articleId) {
     const { data: article, error } = await supabase
@@ -290,19 +417,31 @@ async function loadEditor() {
     }
 
     existingImage = article.image_url || "";
+    existingPublishedAt = article.published_at || null;
 
     for (const [key, value] of Object.entries(article)) {
       const field = form.elements.namedItem(key);
-      if (field && value !== null && field.type !== "file") {
+
+      if (
+        field &&
+        value !== null &&
+        field instanceof HTMLElement &&
+        field.type !== "file"
+      ) {
         field.value = value;
       }
     }
 
-    if (imagePreview && existingImage) {
-      imagePreview.src = existingImage;
-      imagePreview.hidden = false;
+    if (existingImage) {
+      displayImagePreview(imagePreview, existingImage);
+      if (removeImage) removeImage.checked = false;
     }
+
+    const heading = $("#editorHeading");
+    if (heading) heading.textContent = "Edit article";
   }
+
+  /* IMAGE FILE VALIDATION AND PREVIEW */
 
   if (imageInput) {
     imageInput.addEventListener("change", () => {
@@ -310,29 +449,63 @@ async function loadEditor() {
 
       if (!file) return;
 
-      if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
-        showMessage(message, "Only JPG, PNG and WEBP images are allowed.");
+      const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/webp"
+      ];
+
+      if (!allowedTypes.includes(file.type)) {
+        showMessage(
+          message,
+          "Only JPG, PNG and WEBP images are allowed."
+        );
+
         imageInput.value = "";
         return;
       }
 
       if (file.size > 5 * 1024 * 1024) {
-        showMessage(message, "Image size must be 5 MB or less.");
+        showMessage(
+          message,
+          "Image size must be 5 MB or less."
+        );
+
         imageInput.value = "";
         return;
       }
 
-      if (imagePreview) {
-        imagePreview.src = URL.createObjectURL(file);
-        imagePreview.hidden = false;
+      if (previewObjectUrl) {
+        URL.revokeObjectURL(previewObjectUrl);
       }
 
+      previewObjectUrl = URL.createObjectURL(file);
+
+      displayImagePreview(imagePreview, previewObjectUrl);
+
       if (removeImage) removeImage.checked = false;
+
+      showMessage(message, "Image selected successfully.", "success");
     });
   }
 
+  if (removeImage) {
+    removeImage.addEventListener("change", () => {
+      if (removeImage.checked && !imageInput?.files?.length) {
+        hideImagePreview(imagePreview);
+      } else if (!removeImage.checked && existingImage) {
+        displayImagePreview(imagePreview, existingImage);
+      }
+    });
+  }
+
+  /* SAVE ARTICLE */
+
   form.onsubmit = async (event) => {
     event.preventDefault();
+
+    const currentSession = await getAdminSession();
+    if (!currentSession) return;
 
     const formData = new FormData(form);
     const file = imageInput?.files?.[0];
@@ -345,17 +518,34 @@ async function loadEditor() {
       return;
     }
 
+    if (!formData.get("category_id")) {
+      showMessage(message, "Please select a category.");
+      return;
+    }
+
     showMessage(message, "Saving article...", "info");
 
     let imageUrl = existingImage;
 
-    if (removeImage?.checked) {
+    /* REMOVE IMAGE */
+
+    if (removeImage?.checked && !file) {
       imageUrl = "";
     }
 
+    /* UPLOAD NEW IMAGE */
+
     if (file) {
-      const extension = file.type === "image/jpeg" ? "jpg" :
-        file.type === "image/png" ? "png" : "webp";
+      const extension = {
+        "image/jpeg": "jpg",
+        "image/png": "png",
+        "image/webp": "webp"
+      }[file.type];
+
+      if (!extension || file.size > 5 * 1024 * 1024) {
+        showMessage(message, "Invalid image file.");
+        return;
+      }
 
       const filePath =
         `articles/${Date.now()}-${crypto.randomUUID()}.${extension}`;
@@ -369,7 +559,10 @@ async function loadEditor() {
         });
 
       if (uploadError) {
-        showMessage(message, "Image upload failed: " + uploadError.message);
+        showMessage(
+          message,
+          "Image upload failed: " + uploadError.message
+        );
         return;
       }
 
@@ -380,6 +573,8 @@ async function loadEditor() {
       imageUrl = publicData.publicUrl;
     }
 
+    /* ARTICLE DATA */
+
     const status = formData.get("status") || "draft";
 
     const articleData = {
@@ -389,34 +584,36 @@ async function loadEditor() {
       summary_en: formData.get("summary_en")?.trim() || "",
       content_bn: formData.get("content_bn")?.trim() || "",
       content_en: formData.get("content_en")?.trim() || "",
-      category_id: formData.get("category_id") || null,
-      author_name: formData.get("author_name")?.trim() || "Desh 71 News Desk",
+      category_id: formData.get("category_id"),
+      author_name:
+        formData.get("author_name")?.trim() || "Desh 71 News Desk",
       image_url: imageUrl || null,
       status,
       updated_at: new Date().toISOString()
     };
 
     if (status === "published") {
-      articleData.published_at = new Date().toISOString();
+      articleData.published_at =
+        existingPublishedAt || new Date().toISOString();
+    } else {
+      articleData.published_at = null;
     }
+
+    /* UPDATE OR INSERT */
 
     let result;
 
     if (articleId) {
-      if (status !== "published") {
-        articleData.published_at = null;
-      }
-
       result = await supabase
         .from("articles")
         .update(articleData)
         .eq("id", articleId);
     } else {
-      articleData.author_id = session.user.id;
-      if (status === "published") {
-        articleData.published_at = new Date().toISOString();
-      }
-      result = await supabase.from("articles").insert(articleData);
+      articleData.author_id = currentSession.user.id;
+
+      result = await supabase
+        .from("articles")
+        .insert(articleData);
     }
 
     if (result.error) {
@@ -424,7 +621,11 @@ async function loadEditor() {
       return;
     }
 
-    showMessage(message, "Article saved successfully.", "success");
+    showMessage(
+      message,
+      "Article saved successfully.",
+      "success"
+    );
 
     setTimeout(() => {
       window.location.href = "articles.html";
@@ -432,20 +633,49 @@ async function loadEditor() {
   };
 }
 
-/* AUTOMATIC PAGE INITIALIZATION */
+/* =====================================================
+   PAGE INITIALIZATION
+===================================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
+
   const loginForm = $("#loginForm");
-  if (loginForm) loginForm.addEventListener("submit", adminLogin);
+  if (loginForm) {
+    loginForm.addEventListener("submit", adminLogin);
+  }
 
-  const logoutButton = $("#logoutBtn");
-  if (logoutButton) logoutButton.addEventListener("click", adminLogout);
+  /* MATCHES YOUR editor.html ID */
 
-  if ($("#totalArticles")) loadDashboard();
-  if ($("#articlesList")) loadArticles();
-  if ($("#categoriesList")) loadCategories();
-  if ($("#articleForm")) loadEditor();
+  const logoutButton = $("#signOut");
+  if (logoutButton) {
+    logoutButton.addEventListener("click", adminLogout);
+  }
+
+  /* SUPPORT OTHER ADMIN PAGE ID */
+
+  const logoutAlternative = $("#logoutBtn");
+  if (logoutAlternative) {
+    logoutAlternative.addEventListener("click", adminLogout);
+  }
+
+  if ($("#totalArticles")) {
+    loadDashboard();
+  }
+
+  if ($("#articlesList")) {
+    loadArticles();
+  }
+
+  if ($("#categoriesList")) {
+    loadCategories();
+  }
+
+  if ($("#articleForm")) {
+    loadEditor();
+  }
 
   const categoryForm = $("#categoryForm");
-  if (categoryForm) categoryForm.addEventListener("submit", saveCategory);
+  if (categoryForm) {
+    categoryForm.addEventListener("submit", saveCategory);
+  }
 });
