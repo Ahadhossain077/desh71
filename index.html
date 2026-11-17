@@ -5,13 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="theme-color" content="#102c50">
 
-  <title>Desh 71 | বাংলাদেশের সর্বশেষ সংবাদ, রাজনীতি, খেলাধুলা ও আন্তর্জাতিক</title>
-  <meta name="description" content="Desh 71 - বাংলাদেশের সর্বশেষ সংবাদ, রাজনীতি, আন্তর্জাতিক, খেলাধুলা, ব্যবসা, প্রযুক্তি ও বিনোদনের নির্ভরযোগ্য বাংলা নিউজ পোর্টাল। সত্যের পাশে, মানুষের সাথে।">
-  <meta name="keywords" content="Desh 71, দেশ ৭১, বাংলাদেশ সংবাদ, বাংলা সংবাদ, সর্বশেষ খবর, bangla news, bangladesh news">
+  <title data-i18n="page.title">Desh 71 | সত্যের পথে সংবাদ</title>
+  <meta name="description" content="Desh 71 - বাংলাদেশের সর্বশেষ সংবাদ, রাজনীতি, আন্তর্জাতিক, খেলাধুলা, ব্যবসা, প্রযুক্তি ও বিনোদনের নির্ভরযোগ্য বাংলা নিউজ পোর্টাল।">
+  <meta name="keywords" content="Desh 71, দেশ ৭১, বাংলাদেশ সংবাদ, বাংলা সংবাদ, সর্বশেষ খবর">
   <meta name="author" content="Desh 71">
-  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
   <meta name="googlebot" content="index, follow">
-  <meta name="language" content="Bengali">
 
   <link rel="canonical" href="https://ahadhossain077.github.io/desh71/">
 
@@ -28,7 +27,7 @@
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Desh 71 | বাংলাদেশের সর্বশেষ সংবাদ">
-  <meta name="twitter:description" content="Desh 71 - বাংলাদেশের সর্বশেষ সংবাদ, রাজনীতি, খেলাধুলা ও আন্তর্জাতিক সংবাদ।">
+  <meta name="twitter:description" content="Desh 71 - বাংলাদেশের সর্বশেষ সংবাদ।">
   <meta name="twitter:image" content="https://ahadhossain077.github.io/desh71/assets/img/og-cover.jpg">
 
   <link rel="alternate" hreflang="bn" href="https://ahadhossain077.github.io/desh71/">
@@ -46,38 +45,13 @@
   {
     "@context": "https://schema.org",
     "@type": "NewsMediaOrganization",
-    "@id": "https://ahadhossain077.github.io/desh71/#organization",
     "name": "Desh 71",
     "alternateName": ["দেশ ৭১"],
     "url": "https://ahadhossain077.github.io/desh71/",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://ahadhossain077.github.io/desh71/assets/img/logo.png",
-      "width": 512,
-      "height": 512
-    },
-    "description": "Desh 71 - বাংলাদেশের সর্বশেষ সংবাদ ও বিশ্ব সংবাদ।",
+    "logo": "https://ahadhossain077.github.io/desh71/assets/img/logo.png",
     "slogan": "সত্যের পাশে, মানুষের সাথে",
     "email": "info@desh71.com",
-    "knowsLanguage": ["bn", "en"],
-    "sameAs": []
-  }
-  </script>
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "@id": "https://ahadhossain077.github.io/desh71/#website",
-    "url": "https://ahadhossain077.github.io/desh71/",
-    "name": "Desh 71",
-    "inLanguage": "bn-BD",
-    "publisher": { "@id": "https://ahadhossain077.github.io/desh71/#organization" },
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "https://ahadhossain077.github.io/desh71/?s={search_term_string}",
-      "query-input": "required name=search_term_string"
-    }
+    "knowsLanguage": ["bn", "en"]
   }
   </script>
 </head>
@@ -87,38 +61,44 @@
     <div class="container topbar-inner">
       <span id="todayDate">আজকের সংবাদ</span>
       <div class="top-links">
-        <a href="#about">আমাদের সম্পর্কে</a>
-        <a href="#contact">যোগাযোগ</a>
+        <a href="#about" data-i18n="topbar.about">আমাদের সম্পর্কে</a>
+        <a href="#contact" data-i18n="topbar.contact">যোগাযোগ</a>
       </div>
     </div>
   </div>
 
   <div class="container brand-row">
-    <button class="menu-toggle" id="menuToggle" aria-label="Menu" aria-expanded="false">☰</button>
-    <a href="index.html" class="brand" aria-label="Desh 71 - হোম পেজ">
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu" aria-expanded="false" data-i18n-aria-label="menu.aria">☰</button>
+
+    <a href="index.html" class="brand" aria-label="Desh 71">
       <span class="brand-mark">৭১</span>
-      <span><strong>DESH 71</strong><small>সত্যের পথে সংবাদ</small></span>
+      <span>
+        <strong data-i18n="brand.name">DESH 71</strong>
+        <small data-i18n="brand.tagline">সত্যের পথে সংবাদ</small>
+      </span>
     </a>
+
     <div class="brand-center">
-      <span>বাংলাদেশের সংবাদমাধ্যম</span>
-      <strong>সত্যের পাশে, মানুষের সাথে</strong>
+      <span data-i18n="brand-center.category">বাংলাদেশের সংবাদমাধ্যম</span>
+      <strong data-i18n="brand-center.slogan">সত্যের পাশে, মানুষের সাথে</strong>
     </div>
+
     <div class="header-actions">
       <button id="languageToggle" class="header-btn" aria-label="Change language">EN</button>
-      <button id="themeToggle" class="header-btn" aria-label="Toggle theme">☾</button>
+      <button id="themeToggle" class="header-btn" aria-label="Toggle theme" data-i18n-aria-label="theme.aria">☾</button>
     </div>
   </div>
 
   <nav class="main-nav" id="mainNav" aria-label="Main navigation">
     <div class="container nav-inner">
-      <a href="index.html" class="nav-link active">প্রচ্ছদ</a>
-      <a href="category.html?slug=national" class="nav-link">জাতীয়</a>
-      <a href="category.html?slug=politics" class="nav-link">রাজনীতি</a>
-      <a href="category.html?slug=international" class="nav-link">আন্তর্জাতিক</a>
-      <a href="category.html?slug=sports" class="nav-link">খেলাধুলা</a>
-      <a href="category.html?slug=business" class="nav-link">ব্যবসা</a>
-      <a href="category.html?slug=technology" class="nav-link">প্রযুক্তি</a>
-      <a href="category.html?slug=entertainment" class="nav-link">বিনোদন</a>
+      <a href="index.html" class="nav-link active" data-i18n="nav.home">প্রচ্ছদ</a>
+      <a href="category.html?slug=national" class="nav-link" data-i18n="nav.national">জাতীয়</a>
+      <a href="category.html?slug=politics" class="nav-link" data-i18n="nav.politics">রাজনীতি</a>
+      <a href="category.html?slug=international" class="nav-link" data-i18n="nav.international">আন্তর্জাতিক</a>
+      <a href="category.html?slug=sports" class="nav-link" data-i18n="nav.sports">খেলাধুলা</a>
+      <a href="category.html?slug=business" class="nav-link" data-i18n="nav.business">ব্যবসা</a>
+      <a href="category.html?slug=technology" class="nav-link" data-i18n="nav.technology">প্রযুক্তি</a>
+      <a href="category.html?slug=entertainment" class="nav-link" data-i18n="nav.entertainment">বিনোদন</a>
     </div>
   </nav>
 </header>
@@ -126,16 +106,21 @@
 <main>
   <section class="breaking container" aria-label="Breaking news">
     <span class="breaking-label">Desh 71</span>
-    <div class="breaking-track"><span>বাংলা ও English-এ প্রকাশিত সংবাদ পড়ুন</span></div>
+    <div class="breaking-track">
+      <span data-i18n="breaking.text">বাংলা ও English-এ প্রকাশিত সংবাদ পড়ুন</span>
+    </div>
   </section>
 
   <section class="container hero-section" aria-labelledby="heroHeading">
     <div class="section-heading">
       <div>
         <span class="eyebrow">TODAY'S HEADLINES</span>
-        <h1 id="heroHeading" style="margin:4px 0 0;font-size:clamp(20px,3vw,28px);">আজকের প্রধান সংবাদ</h1>
+        <h1 id="heroHeading" data-i18n="hero.heading">আজকের প্রধান সংবাদ</h1>
       </div>
-      <span class="live-indicator"><i></i> সর্বশেষ আপডেট</span>
+      <span class="live-indicator">
+        <i></i>
+        <span data-i18n="hero.live">সর্বশেষ আপডেট</span>
+      </span>
     </div>
     <div class="hero-grid" id="heroNews">
       <div class="empty-state"><h3>সংবাদ লোড হচ্ছে…</h3></div>
@@ -146,23 +131,33 @@
     <div class="section-heading">
       <div>
         <span class="eyebrow">LATEST STORIES</span>
-        <h2 id="newsHeading">সর্বশেষ সংবাদ</h2>
+        <h2 id="newsHeading" data-i18n="news.heading">সর্বশেষ সংবাদ</h2>
       </div>
       <form class="search-box" id="searchForm" role="search">
-        <input type="search" id="searchInput" placeholder="সংবাদ খুঁজুন..." aria-label="Search news" autocomplete="off">
-        <button type="submit" id="searchButton" aria-label="Search">⌕</button>
+        <input
+          type="search"
+          id="searchInput"
+          placeholder="সংবাদ খুঁজুন..."
+          aria-label="Search news"
+          autocomplete="off"
+          data-i18n-placeholder="search.placeholder"
+          data-i18n-aria-label="search.aria"
+        >
+        <button type="submit" id="searchButton" aria-label="Search" data-i18n-aria-label="search.button">⌕</button>
       </form>
     </div>
+
     <div class="category-filters" id="categoryFilters" aria-label="Category filter">
-      <a class="filter-btn selected" href="index.html">সব সংবাদ</a>
-      <a class="filter-btn" href="category.html?slug=national">জাতীয়</a>
-      <a class="filter-btn" href="category.html?slug=politics">রাজনীতি</a>
-      <a class="filter-btn" href="category.html?slug=international">আন্তর্জাতিক</a>
-      <a class="filter-btn" href="category.html?slug=sports">খেলাধুলা</a>
-      <a class="filter-btn" href="category.html?slug=business">ব্যবসা</a>
-      <a class="filter-btn" href="category.html?slug=technology">প্রযুক্তি</a>
-      <a class="filter-btn" href="category.html?slug=entertainment">বিনোদন</a>
+      <a class="filter-btn selected" href="index.html" data-i18n="filter.all">সব সংবাদ</a>
+      <a class="filter-btn" href="category.html?slug=national" data-i18n="nav.national">জাতীয়</a>
+      <a class="filter-btn" href="category.html?slug=politics" data-i18n="nav.politics">রাজনীতি</a>
+      <a class="filter-btn" href="category.html?slug=international" data-i18n="nav.international">আন্তর্জাতিক</a>
+      <a class="filter-btn" href="category.html?slug=sports" data-i18n="nav.sports">খেলাধুলা</a>
+      <a class="filter-btn" href="category.html?slug=business" data-i18n="nav.business">ব্যবসা</a>
+      <a class="filter-btn" href="category.html?slug=technology" data-i18n="nav.technology">প্রযুক্তি</a>
+      <a class="filter-btn" href="category.html?slug=entertainment" data-i18n="nav.entertainment">বিনোদন</a>
     </div>
+
     <div class="news-grid" id="newsGrid">
       <div class="empty-state"><h3>সংবাদ লোড হচ্ছে…</h3></div>
     </div>
@@ -172,29 +167,34 @@
   <section class="container newsletter" id="about">
     <div>
       <span class="eyebrow">ABOUT DESH 71</span>
-      <h2>সত্যের পাশে, মানুষের সাথে</h2>
-      <p>নির্ভরযোগ্য সংবাদ ও তথ্য পাঠকের কাছে পৌঁছে দেওয়াই আমাদের লক্ষ্য।</p>
+      <h2 data-i18n="newsletter.heading">সত্যের পাশে, মানুষের সাথে</h2>
+      <p data-i18n="newsletter.text">নির্ভরযোগ্য সংবাদ ও তথ্য পাঠকের কাছে পৌঁছে দেওয়াই আমাদের লক্ষ্য।</p>
     </div>
-    <a href="mailto:info@desh71.com" class="newsletter-btn">যোগাযোগ করুন →</a>
+    <a href="mailto:info@desh71.com" class="newsletter-btn" data-i18n="newsletter.cta">যোগাযোগ করুন →</a>
   </section>
 </main>
 
 <footer class="site-footer" id="contact">
   <div class="container footer-content">
     <div>
-      <a href="index.html" class="brand footer-brand">
+      <a href="index.html" class="brand footer-brand" aria-label="Desh 71">
         <span class="brand-mark">৭১</span>
-        <span><strong>DESH 71</strong><small>সত্যের পথে সংবাদ</small></span>
+        <span>
+          <strong data-i18n="brand.name">DESH 71</strong>
+          <small data-i18n="brand.tagline">সত্যের পথে সংবাদ</small>
+        </span>
       </a>
-      <p>সত্যের পাশে, মানুষের সাথে।</p>
+      <p data-i18n="footer.tagline">সত্যের পাশে, মানুষের সাথে।</p>
     </div>
     <div class="footer-links">
-      <a href="#about">আমাদের সম্পর্কে</a>
-      <a href="#news">সর্বশেষ সংবাদ</a>
-      <a href="mailto:info@desh71.com">ইমেইল</a>
+      <a href="#about" data-i18n="footer.about">আমাদের সম্পর্কে</a>
+      <a href="#news" data-i18n="footer.latest">সর্বশেষ সংবাদ</a>
+      <a href="mailto:info@desh71.com" data-i18n="footer.email">ইমেইল</a>
     </div>
   </div>
-  <div class="container copyright">© <span id="year"></span> Desh 71. All rights reserved.</div>
+  <div class="container copyright">
+    © <span id="year"></span> Desh 71. <span data-i18n="footer.copyright">সর্বস্বত্ব সংরক্ষিত।</span>
+  </div>
 </footer>
 
 <script type="module" src="app.js"></script>
