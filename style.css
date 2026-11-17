@@ -1058,3 +1058,66 @@ textarea:focus-visible {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* =========================================
+   COMPLETE ZOOM DISABLE — MOBILE + DESKTOP
+========================================= */
+
+html {
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  touch-action: manipulation;
+  overscroll-behavior: none;
+  overflow-x: hidden;
+}
+
+body {
+  touch-action: manipulation;
+  overscroll-behavior: none;
+  overflow-x: hidden;
+}
+
+* { -webkit-tap-highlight-color: transparent; }
+
+/* iOS: input focus zoom বন্ধ করতে 16px বাধ্যতামূলক */
+@media screen and (max-width: 768px) {
+  input[type="text"],
+  input[type="search"],
+  input[type="email"],
+  input[type="url"],
+  input[type="tel"],
+  input[type="password"],
+  input[type="number"],
+  input[type="date"],
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
+
+/* হেডলাইন থাম্বনেইল — জুম/ক্রপ ফিক্স */
+.news-card__image,
+.card-image,
+.article-thumb,
+.post-thumbnail,
+.featured-image,
+.hero-image,
+.news-thumb,
+.hero-card img,
+.news-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  object-position: center;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
