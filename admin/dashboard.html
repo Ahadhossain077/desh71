@@ -1,2 +1,161 @@
+
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex"><title>Admin dashboard | Desh 71</title><link rel="stylesheet" href="../style.css"><link rel="stylesheet" href="../assets/css/pages.css"></head><body class="admin-body"><header class="admin-top"><a class="brand" href="../index.html"><span class="brand-mark">৭১</span><span><strong>DESH 71</strong><small>Admin</small></span></a><button id="signOut" class="header-btn">Sign out</button></header><main class="admin-content"><h1>Dashboard</h1><p>Manage content published to Desh 71.</p><nav class="admin-nav"><a href="dashboard.html">Dashboard</a><a href="articles.html">Articles</a><a href="categories.html">Categories</a></nav><section class="admin-card"><h2>Content overview</h2><div id="dashboardStats" class="admin-stats" aria-live="polite">Loading…</div><a class="primary-button inline-button" href="editor.html">Create article</a></section><p id="adminMessage" class="form-message" role="status"></p></main><script type="module" src="../assets/js/admin.js"></script></body></html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#101b35">
+  <title>Dashboard | Desh 71</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../assets/css/pages.css">
+</head>
+<body class="admin-body newsroom-admin">
+
+  <aside class="admin-sidebar">
+    <a class="admin-brand" href="../index.html">
+      <span class="admin-brand-mark">৭১</span>
+      <span class="admin-brand-copy">
+        <strong>DESH 71</strong>
+        <small>NEWSROOM CMS</small>
+      </span>
+    </a>
+
+    <div class="admin-side-label">WORKSPACE</div>
+    <nav class="admin-side-nav" aria-label="Admin navigation">
+      <a class="admin-side-link active" href="dashboard.html">
+        <span class="admin-side-icon">▦</span>
+        <span>Dashboard</span>
+      </a>
+      <a class="admin-side-link" href="articles.html">
+        <span class="admin-side-icon">▤</span>
+        <span>Articles</span>
+      </a>
+      <a class="admin-side-link" href="editor.html">
+        <span class="admin-side-icon">＋</span>
+        <span>Write article</span>
+      </a>
+      <a class="admin-side-link" href="categories.html">
+        <span class="admin-side-icon">▧</span>
+        <span>Categories</span>
+      </a>
+    </nav>
+
+    <div class="admin-sidebar-bottom">
+      <div class="admin-sidebar-note">
+        <span class="admin-note-dot"></span>
+        <div>
+          <strong>Desh 71 CMS</strong>
+          <small>Content management</small>
+        </div>
+      </div>
+      <a class="admin-back-link" href="../index.html">← View website</a>
+    </div>
+  </aside>
+
+  <div class="admin-main-area">
+    <header class="admin-main-header">
+      <div>
+        <span class="admin-header-eyebrow">DESH 71 / WORKSPACE</span>
+        <h2>Newsroom Dashboard</h2>
+      </div>
+      <div class="admin-header-actions">
+        <a class="admin-view-site" href="../index.html" target="_blank" rel="noopener">↗ View website</a>
+        <button id="signOut" class="admin-signout" type="button">Sign out&nbsp; ↗</button>
+      </div>
+    </header>
+
+    <main class="admin-dashboard-content">
+      <section class="admin-welcome">
+        <div>
+          <span class="admin-welcome-kicker">CONTENT CONTROL CENTER</span>
+          <h1>Welcome to your newsroom.</h1>
+          <p>Manage stories, organize categories and keep Desh 71 up to date.</p>
+        </div>
+        <a class="admin-create-button" href="editor.html">
+          <span>＋</span> Create new article
+        </a>
+      </section>
+
+      <section class="admin-overview-section">
+        <div class="admin-section-heading">
+          <div>
+            <span class="admin-section-kicker">AT A GLANCE</span>
+            <h2>Content overview</h2>
+          </div>
+          <span class="admin-live-label"><i></i> Live data</span>
+        </div>
+
+        <div id="dashboardStats" class="admin-stats newsroom-stats" aria-live="polite">
+          <div class="admin-stat-card">
+            <span class="admin-stat-icon">▤</span>
+            <span class="admin-stat-label">Loading overview</span>
+            <strong>—</strong>
+            <small>Fetching your content data</small>
+          </div>
+        </div>
+      </section>
+
+      <section class="admin-quick-section">
+        <div class="admin-section-heading">
+          <div>
+            <span class="admin-section-kicker">QUICK ACTIONS</span>
+            <h2>Manage your newsroom</h2>
+          </div>
+        </div>
+
+        <div class="admin-quick-grid">
+          <a href="editor.html" class="admin-quick-card">
+            <span class="admin-quick-icon blue">＋</span>
+            <span class="admin-quick-copy">
+              <strong>Write an article</strong>
+              <small>Create and publish a new story</small>
+            </span>
+            <span class="admin-quick-arrow">↗</span>
+          </a>
+
+          <a href="articles.html" class="admin-quick-card">
+            <span class="admin-quick-icon purple">▤</span>
+            <span class="admin-quick-copy">
+              <strong>Manage articles</strong>
+              <small>Review, edit and update stories</small>
+            </span>
+            <span class="admin-quick-arrow">↗</span>
+          </a>
+
+          <a href="categories.html" class="admin-quick-card">
+            <span class="admin-quick-icon orange">▧</span>
+            <span class="admin-quick-copy">
+              <strong>Manage categories</strong>
+              <small>Organize your news sections</small>
+            </span>
+            <span class="admin-quick-arrow">↗</span>
+          </a>
+        </div>
+      </section>
+
+      <p id="adminMessage" class="form-message admin-dashboard-message" role="status"></p>
+
+      <footer class="admin-dashboard-footer">
+        <span>© <span id="adminYear"></span> Desh 71</span>
+        <span>Truth beside people.</span>
+      </footer>
+    </main>
+  </div>
+
+  <nav class="admin-mobile-nav" aria-label="Mobile admin navigation">
+    <a class="active" href="dashboard.html"><span>▦</span><small>Home</small></a>
+    <a href="articles.html"><span>▤</span><small>Articles</small></a>
+    <a href="editor.html"><span>＋</span><small>Write</small></a>
+    <a href="categories.html"><span>▧</span><small>Categories</small></a>
+  </nav>
+
+  <script>
+    document.getElementById("adminYear").textContent = new Date().getFullYear();
+  </script>
+  <script type="module" src="../assets/js/admin.js"></script>
+</body>
+</html>
